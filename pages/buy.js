@@ -1,45 +1,30 @@
 import Head from 'next/head'
-import { useEffect } from 'react'
-
-// UPDATE THIS when your Amazon listing is live:
-const AMAZON_URL = 'https://amazon.com' // ← replace with real ASIN URL
+import Link from 'next/link'
 
 export default function Buy() {
-
-  // Auto-redirect after a short moment once Amazon listing is live
-  // Uncomment the block below when ready:
-  /*
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      window.location.href = AMAZON_URL
-    }, 3000)
-    return () => clearTimeout(timer)
-  }, [])
-  */
-
   return (
     <>
       <Head>
         <title>Buy Letter Me This! — Nicholas Street Games</title>
-        <meta name="description" content="Get Letter Me This! — the party game where your friends define you. Available on Amazon. $19.99." />
+        <meta name="description" content="Letter Me This! — the party game where your friends define you. Coming soon." />
       </Head>
 
       {/* ── HERO ── */}
       <section style={s.hero}>
         <p style={s.eyebrow}>Get the Game</p>
         <h1 style={s.title}>Letter Me This!</h1>
-        <p style={s.price}>$19.99</p>
-        <p style={s.sub}>Available on Amazon · Ships via FBA · Prime eligible</p>
+        <h2 style={s.comingSoon}>Coming Soon</h2>
+        <p style={s.sub}>
+          We&apos;re putting the finishing touches on everything.
+          Sign up below to be the first to know when it&apos;s available.
+        </p>
 
-        <div style={s.btnGroup}>
-          <a href={AMAZON_URL} style={s.amazonBtn} target="_blank" rel="noopener noreferrer">
-            🛒&nbsp; Buy on Amazon
-          </a>
-        </div>
+        <a href="mailto:tim@nicholasstreetgames.com" style={s.notifyBtn}>
+          Get Notified
+        </a>
 
         <p style={s.note}>
-          Clicking takes you directly to our Amazon listing.
-          Free shipping with Prime.
+          Drop us a line and we&apos;ll let you know the moment it&apos;s ready.
         </p>
       </section>
 
@@ -52,16 +37,15 @@ export default function Buy() {
           <h2 style={s.secTitle}>Everything You Need.<br />Nothing You Don&apos;t.</h2>
           <div style={s.contentsGrid}>
             {[
-              { icon:'🎲', item:'1× 20-sided Alphabet Die',   desc:'Custom letter die with the 20 most-used letters' },
-              { icon:'🎲', item:'1× 6-sided Number Die',       desc:'Numbers 3–8 to set your word count' },
-              { icon:'🧊', item:'1× Dice Canister',            desc:'Roll anywhere — lid keeps everything together' },
-              { icon:'📝', item:'Scoring Pad',                 desc:'Track points for the whole group' },
-              { icon:'📄', item:'Instruction Sheet',           desc:'You\'ll be playing in under 5 minutes' },
-            ].map(({icon, item, desc}) => (
+              { icon:'🎲', item:'One Custom LMK Alphabet Die' },
+              { icon:'🎲', item:'One Numeric Die' },
+              { icon:'🧊', item:'Rolling Canister' },
+              { icon:'📝', item:'Scoring Pad' },
+              { icon:'📄', item:'Instructions' },
+            ].map(({icon, item}) => (
               <div key={item} style={s.contentCard}>
                 <div style={s.contentIcon}>{icon}</div>
                 <div style={s.contentItem}>{item}</div>
-                <div style={s.contentDesc}>{desc}</div>
               </div>
             ))}
           </div>
@@ -85,8 +69,6 @@ export default function Buy() {
               ['Ages',       '12+'],
               ['Play Time',  '15 – 30 min'],
               ['Setup',      'Under 2 min'],
-              ['Price',      '$19.99'],
-              ['Where',      'Amazon (FBA)'],
             ].map(([label, val]) => (
               <div key={label} style={s.specRow}>
                 <span style={s.specLabel}>{label}</span>
@@ -95,9 +77,9 @@ export default function Buy() {
             ))}
           </div>
           <div style={{textAlign:'center', marginTop:40}}>
-            <a href={AMAZON_URL} style={s.amazonBtn} target="_blank" rel="noopener noreferrer">
-              🛒&nbsp; Buy on Amazon
-            </a>
+            <Link href="/our-games" style={s.notifyBtn}>
+              Learn More
+            </Link>
           </div>
         </div>
       </section>
@@ -119,19 +101,18 @@ const s = {
     fontSize:'clamp(48px,8vw,80px)',
     color:'#fff', letterSpacing:3, lineHeight:1, marginBottom:12,
   },
-  price: {
-    fontFamily:"'Bebas Neue',sans-serif", fontSize:36,
-    color:'#F5C518', letterSpacing:2, marginBottom:8,
+  comingSoon: {
+    fontFamily:"'Bebas Neue',sans-serif", fontSize:'clamp(28px,4vw,44px)',
+    color:'#F5C518', letterSpacing:2, marginBottom:16,
   },
-  sub: { fontSize:15, color:'#888', marginBottom:36, letterSpacing:'0.5px' },
-  btnGroup: { display:'flex', justifyContent:'center', marginBottom:16 },
-  amazonBtn: {
+  sub: { fontSize:16, color:'#888', marginBottom:36, letterSpacing:'0.5px', maxWidth:480, margin:'0 auto 36px', lineHeight:1.7 },
+  notifyBtn: {
     fontFamily:"'Bebas Neue',sans-serif", fontSize:20, letterSpacing:2,
-    background:'#F5C518', color:'#1a1a1a',
+    background:'#E85D3D', color:'#fff',
     padding:'16px 48px', borderRadius:4, textDecoration:'none',
     boxShadow:'0 4px 16px rgba(0,0,0,0.3)', display:'inline-block',
   },
-  note: { fontSize:12, color:'#555', letterSpacing:'0.5px' },
+  note: { fontSize:12, color:'#555', letterSpacing:'0.5px', marginTop:16 },
   inner: { maxWidth:900, margin:'0 auto' },
   labelTeal: {
     fontFamily:"'Bebas Neue',sans-serif", fontSize:11,

@@ -1,5 +1,6 @@
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
+import { Analytics } from '@vercel/analytics/react'
 
 export default function App({ Component, pageProps }) {
   return (
@@ -49,6 +50,7 @@ export default function App({ Component, pageProps }) {
           .stack-mobile { grid-template-columns: 1fr !important; }
         }
       `}</style>
+      <Analytics />
     </>
   )
 }

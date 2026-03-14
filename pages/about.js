@@ -42,11 +42,7 @@ export default function About() {
 
           {/* Visual accent */}
           <div style={s.accentCol}>
-            <div style={s.signCard}>
-              <div style={s.bigSign}>NICHOLAS ST.</div>
-              <div style={s.signPole} />
-              <div style={s.signBase} />
-            </div>
+            <img src="/images/nsg-logo.png" alt="Nicholas Street Games" style={s.logoImg} />
             <div style={s.statGrid}>
               {[
                 { num:'1',           label:'Game so far' },
@@ -93,10 +89,10 @@ export default function About() {
       {/* ── CTA ── */}
       <section style={{padding:'80px 24px', background:'#f8f7f3', textAlign:'center'}}>
         <p style={s.labelTeal}>Ready to Play?</p>
-        <h2 style={{...s.secTitle, marginBottom:32}}>Pick Up a Copy.</h2>
+        <h2 style={{...s.secTitle, marginBottom:32}}>Coming Soon.</h2>
         <div style={{display:'flex', gap:16, justifyContent:'center', flexWrap:'wrap'}}>
-          <Link href="/buy" style={s.btnPrimary}>Buy Now — $19.99</Link>
-          <Link href="/our-games" style={s.btnSecondary}>Learn About the Game</Link>
+          <Link href="/our-games" style={s.btnPrimary}>Learn About the Game</Link>
+          <a href="https://tmteagle-eng.github.io/letter-me-this/" style={s.btnSecondary} target="_blank" rel="noopener noreferrer">Try the Dice Roller</a>
         </div>
       </section>
     </>
@@ -137,15 +133,10 @@ const s = {
     fontSize:17, lineHeight:1.85, color:'#444', marginBottom:20,
   },
   accentCol: { display:'flex', flexDirection:'column', gap:32, alignItems:'center' },
-  signCard: { display:'flex', flexDirection:'column', alignItems:'center' },
-  bigSign: {
-    background:'#3a7d44', color:'#fff',
-    fontFamily:"'Bebas Neue',sans-serif",
-    fontSize:28, letterSpacing:6, padding:'16px 32px',
-    borderRadius:4, boxShadow:'inset 0 0 0 3px rgba(255,255,255,0.3)',
+  logoImg: {
+    width:'100%', maxWidth:320, height:'auto',
+    filter:'drop-shadow(0 8px 24px rgba(0,0,0,0.12))',
   },
-  signPole: { width:6, height:60, background:'#888', borderRadius:2 },
-  signBase: { width:40, height:8, background:'#666', borderRadius:4 },
   statGrid: {
     display:'grid', gridTemplateColumns:'1fr 1fr', gap:16, width:'100%',
   },

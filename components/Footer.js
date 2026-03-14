@@ -21,8 +21,6 @@ export default function Footer() {
             { href: '/',          label: 'Home' },
             { href: '/our-games', label: 'Our Games' },
             { href: '/about',     label: 'About' },
-            { href: '/buy',       label: 'Buy' },
-            { href: '/launch',    label: 'Launch Party' },
           ].map(({ href, label }) => (
             <Link key={href} href={href} style={s.footLink}>{label}</Link>
           ))}
@@ -34,8 +32,8 @@ export default function Footer() {
           <a href="https://instagram.com/lettermethisgame" style={s.footLink} target="_blank" rel="noopener noreferrer">
             Instagram · @lettermethisgame
           </a>
-          <a href="https://tiktok.com/@lettermethisgame" style={s.footLink} target="_blank" rel="noopener noreferrer">
-            TikTok · @lettermethisgame
+          <a href="https://tiktok.com/@LetterMeThis1" style={s.footLink} target="_blank" rel="noopener noreferrer">
+            TikTok · @LetterMeThis1
           </a>
           <a href="mailto:tim@nicholasstreetgames.com" style={s.footLink}>
             tim@nicholasstreetgames.com

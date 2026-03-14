@@ -1,16 +1,6 @@
-// pages/launch.js  (or app/launch/page.js for App Router)
-// Place this file at: pages/launch.js
-// Live at: nicholasstreetgames.com/launch
-//
-// Dependencies already in Next.js — no extra installs needed.
-// Add fonts to pages/_document.js or app/layout.js (see note at bottom).
-
+import { useState } from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
-
-const LOGO_SRC = 'LOGO_BASE64_PLACEHOLDER'
-const RSVP_URL = 'https://forms.office.com/r/5jMmN45h2j'
 
 const verbCards = [
   { word: 'Roll',   desc: 'Pick a letter & a number',   color: '#20B2AA' },
@@ -20,13 +10,187 @@ const verbCards = [
   { word: 'Laugh',  desc: 'At your friends. A lot.',    color: '#1a1a1a' },
 ]
 
+function RsvpForm() {
+  const [form, setForm] = useState({ name: '', email: '', phone: '', attending: '', guests: '1', dietary: '' })
+  const [status, setStatus] = useState('idle') // idle | sending | success | error
+
+  const update = (field, value) => setForm(prev => ({ ...prev, [field]: value }))
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (!res.ok) throw new Error()
+      setStatus('success')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <section id="rsvp" style={styles.rsvpSection}>
+      <div style={styles.rsvpDots} aria-hidden="true" />
+      <p style={{ ...styles.sectionLabel, color: 'rgba(255,255,255,0.6)', position: 'relative' }}>
+        Don&apos;t Wait
+      </p>
+      <h2 style={styles.rsvpHeadline}>
+        Spots Are Limited.<br />RSVP by March 21st.
+      </h2>
+
+      {status === 'success' ? (
+        <div style={{ position: 'relative', maxWidth: 480, margin: '0 auto' }}>
+          <div style={styles.formSuccessCard}>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>🎉</div>
+            <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 32, letterSpacing: 3, color: '#1a1a1a', marginBottom: 12 }}>
+              You&apos;re In!
+            </h3>
+            <p style={{ fontSize: 16, color: '#555', lineHeight: 1.6 }}>
+              {form.attending === 'yes'
+                ? "We can't wait to see you on March 28th. Keep an eye on your inbox for any updates!"
+                : "Sorry you can't make it — we'll miss you! Maybe next time."}
+            </p>
+            {form.attending === 'yes' && (
+              <Link href="/release" style={{
+                display: 'inline-block', marginTop: 24,
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: 18, letterSpacing: 2,
+                color: '#fff', background: '#20B2AA',
+                padding: '14px 32px', borderRadius: 4, textDecoration: 'none',
+              }}>
+                Sign Photo &amp; Video Release →
+              </Link>
+            )}
+          </div>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} style={styles.rsvpFormWrap} className="rsvp-form">
+          <div style={styles.formCard}>
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Full Name *</label>
+              <input
+                type="text"
+                required
+                value={form.name}
+                onChange={(e) => update('name', e.target.value)}
+                style={styles.formInput}
+                placeholder="Your name"
+              />
+            </div>
+
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Email *</label>
+              <input
+                type="email"
+                required
+                value={form.email}
+                onChange={(e) => update('email', e.target.value)}
+                style={styles.formInput}
+                placeholder="you@email.com"
+              />
+            </div>
+
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Phone Number *</label>
+              <input
+                type="tel"
+                required
+                value={form.phone}
+                onChange={(e) => update('phone', e.target.value)}
+                style={styles.formInput}
+                placeholder="(555) 123-4567"
+              />
+            </div>
+
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Will You Be There? *</label>
+              <div style={{ display: 'flex', gap: 12 }}>
+                {[
+                  { value: 'yes', label: "Yes, I'm in!", color: '#3a7d44' },
+                  { value: 'no', label: "Can't make it", color: '#E85D3D' },
+                ].map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => update('attending', opt.value)}
+                    style={{
+                      ...styles.formToggle,
+                      borderColor: form.attending === opt.value ? opt.color : 'rgba(255,255,255,0.15)',
+                      background: form.attending === opt.value ? opt.color : 'rgba(255,255,255,0.05)',
+                      color: form.attending === opt.value ? '#fff' : '#aaa',
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {form.attending === 'yes' && (
+              <>
+                <div style={styles.formGroup}>
+                  <label style={styles.formLabel}>Number of Guests (including you)</label>
+                  <select
+                    value={form.guests}
+                    onChange={(e) => update('guests', e.target.value)}
+                    style={styles.formInput}
+                  >
+                    {[1, 2, 3, 4].map((n) => (
+                      <option key={n} value={n}>{n}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div style={styles.formGroup}>
+                  <label style={styles.formLabel}>Dietary Restrictions (optional)</label>
+                  <input
+                    type="text"
+                    value={form.dietary}
+                    onChange={(e) => update('dietary', e.target.value)}
+                    style={styles.formInput}
+                    placeholder="Vegetarian, gluten-free, allergies, etc."
+                  />
+                </div>
+              </>
+            )}
+
+            <button
+              type="submit"
+              disabled={status === 'sending' || !form.attending}
+              style={{
+                ...styles.formSubmit,
+                opacity: (status === 'sending' || !form.attending) ? 0.6 : 1,
+                cursor: (status === 'sending' || !form.attending) ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {status === 'sending' ? 'SENDING...' : 'SUBMIT RSVP'}
+            </button>
+
+            {status === 'error' && (
+              <p style={{ color: '#fff', fontSize: 14, marginTop: 12, textAlign: 'center' }}>
+                Something went wrong — please try again or email tim@nicholasstreetgames.com
+              </p>
+            )}
+          </div>
+
+          <p style={styles.rsvpNote}>March 28 · 4–7PM · Upland, CA · Free to attend</p>
+        </form>
+      )}
+    </section>
+  )
+}
+
 export default function LaunchParty() {
   return (
     <>
       <Head>
-        <title>Launch Party · Letter Me This! · March 28, 2026</title>
-        <meta name="description" content="You're invited to the Letter Me This! launch party — March 28, 2026 · 4–7 PM · Upland, CA. RSVP now." />
-        <meta property="og:title" content="Letter Me This! Launch Party" />
+        <title>Pre-Launch Party · Letter Me This! · March 28, 2026</title>
+        <meta name="description" content="You're invited to the Letter Me This! pre-launch party — March 28, 2026 · 4–7 PM · Upland, CA. RSVP now." />
+        <meta property="og:title" content="Letter Me This! Pre-Launch Party" />
         <meta property="og:description" content="Saturday March 28 · 4–7 PM · 520 N 2nd Ave, Upland CA. Roll. Write. Reveal. Laugh." />
       </Head>
 
@@ -37,10 +201,20 @@ export default function LaunchParty() {
           <Link href="/" style={styles.navLogo}>
             Nicholas Street <span style={{ color: '#20B2AA' }}>Games</span>
           </Link>
-          <a href={RSVP_URL} style={styles.navRsvp} target="_blank" rel="noopener noreferrer">
+          <a href="#rsvp" style={styles.navRsvp}>
             RSVP Now
           </a>
         </nav>
+
+        {/* ── HERO IMAGE ── */}
+        <div style={styles.heroImageWrap}>
+          <img
+            src="/images/launch-hero.jfif"
+            alt="Letter Me This! Pre-Launch Party"
+            style={styles.heroImage}
+          />
+          <div style={styles.heroImageOverlay} />
+        </div>
 
         {/* ── HERO ── */}
         <section style={styles.hero}>
@@ -48,20 +222,19 @@ export default function LaunchParty() {
 
           <p style={styles.heroEyebrow}>Nicholas Street Games · Private Event</p>
 
-          {/* Logo — swap to next/image with real file once in Vercel project */}
           <img
-            src={LOGO_SRC}
-            alt="Letter Me This!"
+            src="/images/nsg-logo.png"
+            alt="Nicholas Street Games"
             style={styles.heroLogo}
           />
 
           <h1 style={styles.heroHeadline}>
-            The <em style={{ color: '#E85D3D', fontStyle: 'normal' }}>Launch Party</em>
+            The <em style={{ color: '#E85D3D', fontStyle: 'normal' }}>Pre-Launch Party</em>
             <br />You Don&apos;t Want to Miss
           </h1>
 
           <p style={styles.heroSub}>
-            We&apos;re officially launching <strong>Letter Me This!</strong> and you&apos;ve been
+            We&apos;re getting close to launching <strong>Letter Me This!</strong> and you&apos;ve been
             hand-picked to be there. Come play, eat, drink, laugh — and help us kick this off
             the right way.
           </p>
@@ -72,7 +245,7 @@ export default function LaunchParty() {
             <Pill color="#E85D3D">📍 520 N 2nd Ave · Upland, CA</Pill>
           </div>
 
-          <a href={RSVP_URL} style={styles.heroCta} target="_blank" rel="noopener noreferrer">
+          <a href="#rsvp" style={styles.heroCta}>
             RSVP RIGHT HERE
           </a>
           <p style={styles.heroCtaSub}>Spots are limited · Free to attend</p>
@@ -191,24 +364,8 @@ export default function LaunchParty() {
           </div>
         </section>
 
-        {/* ── RSVP SECTION ── */}
-        <section style={styles.rsvpSection}>
-          <div style={styles.rsvpDots} aria-hidden="true" />
-          <p style={{ ...styles.sectionLabel, color: 'rgba(255,255,255,0.6)', position: 'relative' }}>
-            Don&apos;t Wait
-          </p>
-          <h2 style={styles.rsvpHeadline}>
-            Spots Are Limited.<br />RSVP Today.
-          </h2>
-          <p style={styles.rsvpSub}>
-            This is a private, hand-selected group. We want you there.
-            Takes 30 seconds — just let us know you&apos;re coming.
-          </p>
-          <a href={RSVP_URL} style={styles.rsvpBtn} target="_blank" rel="noopener noreferrer">
-            RSVP RIGHT HERE
-          </a>
-          <p style={styles.rsvpNote}>March 28 · 4–7PM · Upland, CA · Free to attend</p>
-        </section>
+        {/* ── RSVP FORM SECTION ── */}
+        <RsvpForm />
 
         {/* ── FOOTER ── */}
         <footer style={styles.footer}>
@@ -231,6 +388,7 @@ export default function LaunchParty() {
           0%, 100% { transform: rotate(45deg) translateY(0); }
           50%       { transform: rotate(45deg) translateY(5px); }
         }
+        .hero-image-wrap { animation: fadeUp 0.8s 0.1s both; }
         .hero-eyebrow  { animation: fadeUp 0.6s 0.1s both; }
         .hero-logo     { animation: fadeUp 0.7s 0.2s both; }
         .hero-headline { animation: fadeUp 0.7s 0.3s both; }
@@ -243,6 +401,12 @@ export default function LaunchParty() {
         .verb-card { transition: transform 0.2s; }
         .verb-card:hover { transform: translateY(-4px); }
         nav a:hover { opacity: 0.85; }
+        html { scroll-behavior: smooth; }
+        .rsvp-form input:focus, .rsvp-form select:focus {
+          border-color: #F5C518 !important;
+          box-shadow: 0 0 0 2px rgba(245,197,24,0.3);
+        }
+        .rsvp-form select option { background: #1a1a1a; color: #fff; }
         @media (max-width: 680px) {
           .details-grid { grid-template-columns: 1fr !important; }
         }
@@ -279,6 +443,23 @@ function ColorBar() {
 // ── Styles ──────────────────────────────────────────────────
 
 const styles = {
+  heroImageWrap: {
+    position: 'relative',
+    width: '100%',
+    maxWidth: 800,
+    margin: '68px auto 0',
+    overflow: 'hidden',
+    borderRadius: '0 0 8px 8px',
+  },
+
+  heroImage: {
+    width: '100%',
+    height: 'auto',
+    display: 'block',
+  },
+  heroImageOverlay: {
+    display: 'none',
+  },
   nav: {
     position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
     background: 'rgba(26,26,26,0.96)',
@@ -299,10 +480,10 @@ const styles = {
     padding: '8px 20px', borderRadius: 3, textDecoration: 'none',
   },
   hero: {
-    minHeight: '100vh', background: '#1a1a1a',
+    background: '#1a1a1a',
     display: 'flex', flexDirection: 'column',
     alignItems: 'center', justifyContent: 'center',
-    textAlign: 'center', padding: '120px 24px 80px',
+    textAlign: 'center', padding: '60px 24px 80px',
     position: 'relative', overflow: 'hidden',
   },
   heroDots: {
@@ -317,11 +498,11 @@ const styles = {
   },
   heroEyebrow: {
     fontFamily: "'Bebas Neue', sans-serif",
-    fontSize: 12, letterSpacing: 5, color: '#20B2AA',
+    fontSize: 18, letterSpacing: 5, color: '#20B2AA',
     marginBottom: 24, position: 'relative',
   },
   heroLogo: {
-    width: 240, height: 'auto', marginBottom: 28,
+    width: 200, height: 'auto', marginBottom: 28,
     filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.6))',
     position: 'relative',
   },
@@ -434,12 +615,73 @@ const styles = {
     maxWidth: 480, margin: '0 auto 40px',
     lineHeight: 1.65, position: 'relative',
   },
-  rsvpBtn: {
-    display: 'inline-block', background: '#fff', color: '#E85D3D',
+  rsvpFormWrap: {
+    position: 'relative',
+    maxWidth: 480,
+    margin: '0 auto',
+    width: '100%',
+  },
+  formCard: {
+    background: 'rgba(0,0,0,0.25)',
+    border: '1px solid rgba(255,255,255,0.12)',
+    borderRadius: 10,
+    padding: '36px 32px',
+    textAlign: 'left',
+  },
+  formGroup: {
+    marginBottom: 24,
+  },
+  formLabel: {
+    display: 'block',
     fontFamily: "'Bebas Neue', sans-serif",
-    fontSize: 24, letterSpacing: 3, padding: '20px 64px',
-    borderRadius: 4, textDecoration: 'none',
-    boxShadow: '0 4px 20px rgba(0,0,0,0.2)', position: 'relative',
+    fontSize: 13,
+    letterSpacing: 2,
+    color: 'rgba(255,255,255,0.7)',
+    marginBottom: 8,
+    textTransform: 'uppercase',
+  },
+  formInput: {
+    width: '100%',
+    padding: '14px 16px',
+    fontSize: 16,
+    fontFamily: "'Nunito', sans-serif",
+    background: 'rgba(255,255,255,0.08)',
+    border: '1px solid rgba(255,255,255,0.15)',
+    borderRadius: 6,
+    color: '#fff',
+    outline: 'none',
+    boxSizing: 'border-box',
+  },
+  formToggle: {
+    flex: 1,
+    padding: '14px 16px',
+    fontSize: 15,
+    fontFamily: "'Nunito', sans-serif",
+    fontWeight: 700,
+    border: '2px solid',
+    borderRadius: 6,
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+  },
+  formSubmit: {
+    width: '100%',
+    padding: '18px',
+    fontFamily: "'Bebas Neue', sans-serif",
+    fontSize: 22,
+    letterSpacing: 3,
+    color: '#E85D3D',
+    background: '#fff',
+    border: 'none',
+    borderRadius: 6,
+    boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+    marginTop: 8,
+  },
+  formSuccessCard: {
+    background: '#fff',
+    borderRadius: 10,
+    padding: '48px 32px',
+    textAlign: 'center',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
   },
   rsvpNote: {
     fontSize: 12, color: 'rgba(255,255,255,0.55)',
@@ -457,40 +699,3 @@ const styles = {
   },
   footerLink: { fontSize: 11, color: '#555', textDecoration: 'none', letterSpacing: 1 },
 }
-
-/*
-──────────────────────────────────────────────────────────────
-  SETUP NOTES
-──────────────────────────────────────────────────────────────
-
-  1. FILE LOCATION
-     Pages Router:  pages/launch.js      → nicholasstreetgames.com/launch
-     App Router:    app/launch/page.js   → nicholasstreetgames.com/launch
-
-  2. FONTS
-     Add to pages/_document.js (Pages Router):
-
-       <link rel="preconnect" href="https://fonts.googleapis.com" />
-       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-       <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-
-     Or in app/layout.js (App Router) using next/font:
-
-       import { Bebas_Neue, Nunito } from 'next/font/google'
-
-  3. LOGO IMAGE
-     Replace the LOGO_SRC constant at the top with the real path:
-
-       const LOGO_SRC = '/images/lettermethis-logo.png'
-
-     And place your logo file at:  public/images/lettermethis-logo.png
-
-     Then swap <img> to Next.js <Image> for optimization:
-
-       import Image from 'next/image'
-       <Image src={LOGO_SRC} alt="Letter Me This!" width={240} height={240} style={{ height: 'auto' }} />
-
-  4. NAVIGATION
-     The nav links to href="/" — update if your homepage has a different path.
-──────────────────────────────────────────────────────────────
-*/

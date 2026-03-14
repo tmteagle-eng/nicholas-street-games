@@ -17,7 +17,6 @@ export default function Nav() {
     { href: '/',          label: 'Home' },
     { href: '/our-games', label: 'Our Games' },
     { href: '/about',     label: 'About' },
-    { href: '/buy',       label: 'Buy' },
   ]
 
   const isActive = (href) =>
@@ -32,11 +31,8 @@ export default function Nav() {
       }}>
         {/* Logo / brand */}
         <Link href="/" style={s.brand}>
-          {/* Street sign mark */}
-          <span style={s.signWrap}>
-            <span style={s.signGreen}>NICHOLAS ST.</span>
-          </span>
-          <span style={s.brandSub}>GAMES</span>
+          <img src="/images/nsg-logo.png" alt="Nicholas Street Games" style={s.navLogo} />
+          <span style={s.brandName}>Nicholas Street Games</span>
         </Link>
 
         {/* Desktop links */}
@@ -55,12 +51,12 @@ export default function Nav() {
             </Link>
           ))}
           <a
-            href="https://forms.office.com/r/5jMmN45h2j"
+            href="https://tmteagle-eng.github.io/letter-me-this/"
             style={s.ctaBtn}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Launch Party RSVP
+            Try the Dice Roller
           </a>
         </div>
 
@@ -93,13 +89,13 @@ export default function Nav() {
             </Link>
           ))}
           <a
-            href="https://forms.office.com/r/5jMmN45h2j"
+            href="https://tmteagle-eng.github.io/letter-me-this/"
             style={s.drawerCta}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMenuOpen(false)}
           >
-            Launch Party RSVP
+            Try the Dice Roller
           </a>
         </div>
       )}
@@ -130,23 +126,15 @@ const s = {
     transition: 'background 0.3s, box-shadow 0.3s',
   },
   brand: {
-    display: 'flex', alignItems: 'center', gap: 8,
+    display: 'flex', alignItems: 'center', gap: 10,
     textDecoration: 'none',
   },
-  signWrap: {
-    background: '#3a7d44',
-    padding: '3px 10px',
-    borderRadius: 2,
-    display: 'inline-flex', alignItems: 'center',
+  navLogo: {
+    height: 48, width: 'auto',
   },
-  signGreen: {
+  brandName: {
     fontFamily: "'Bebas Neue', sans-serif",
-    fontSize: 13, letterSpacing: 3,
-    color: '#fff',
-  },
-  brandSub: {
-    fontFamily: "'Bebas Neue', sans-serif",
-    fontSize: 18, letterSpacing: 4,
+    fontSize: 18, letterSpacing: 3,
     color: '#fff',
   },
   links: {
