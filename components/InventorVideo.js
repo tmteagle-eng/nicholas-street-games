@@ -59,11 +59,11 @@ export default function InventorVideo({ background = colors.white }) {
   return (
     <section style={{ padding: '80px 24px', background }}>
       <div style={{ maxWidth: 860, margin: '0 auto', textAlign: 'center' }}>
-        <p style={ui.eyebrow}>From the Inventor</p>
+        <p style={ui.eyebrow}>Our Origin Story</p>
         <h2 style={ui.h2}>A message from the game inventor.</h2>
         <p style={{ ...ui.lead, margin: '14px auto 34px' }}>
-          The story behind Letter Me This! — straight from the person who dreamed it up
-          around the kitchen table.
+          How Nicholas Street Games and Letter Me This! came to be — straight from the
+          person who dreamed it up around the kitchen table.
         </p>
         <div style={s.frame}>
           <Player />

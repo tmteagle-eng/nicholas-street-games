@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import InventorVideo from '../components/InventorVideo'
 import {
   colors, FONT_DISPLAY, FONT_BODY, ui, SLOGAN,
   LOGO_LMT, DICE_ROLLER_URL, INSTAGRAM_URL, TIKTOK_URL, CONTACT_EMAIL,
@@ -170,9 +169,6 @@ export default function LetterMeThis() {
           </div>
         </div>
       </section>
-
-      {/* ── MESSAGE FROM THE GAME INVENTOR ── */}
-      <InventorVideo background={colors.ground} />
 
       {/* ── 6 · TESTIMONIALS ── */}
       <section style={{ ...s.section, background: colors.ground }}>

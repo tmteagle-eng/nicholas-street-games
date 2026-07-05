@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import InventorVideo from '../components/InventorVideo'
 import {
   colors, FONT_DISPLAY, FONT_BODY, ui, SLOGAN,
   LOGO_LMT, DICE_ROLLER_URL, INSTAGRAM_URL, TIKTOK_URL,
@@ -77,6 +78,9 @@ export default function Home() {
       </section>
 
       <div className="color-bar" />
+
+      {/* ── ORIGIN STORY VIDEO ── */}
+      <InventorVideo background={colors.sky} />
 
       {/* ── HOW IT WORKS ── */}
       <section style={{ ...s.section, background: colors.mint }}>
