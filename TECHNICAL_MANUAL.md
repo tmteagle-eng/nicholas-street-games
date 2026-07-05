@@ -17,9 +17,8 @@ Marketing website for Nicholas Street Games, home of the board game **Letter Me 
 - **Workspace/Team:** nicholas-street-games (its own Vercel workspace, separate from other projects)
 - **Project:** nicholas-street-games
 - **Project ID:** prj_VAC8seTCptOntreKm4LTewXlD1BH (unchanged by the workspace move)
-- **Org/Team ID:** TODO — project moved to the new "nicholas-street-games" workspace;
-  old Grounded ID (team_5hTfGHmr8MLt1hcg5xuyYGVm) no longer applies. Find the new value in
-  Vercel → Nicholas Street Games → Settings → General → "Team ID".
+- **Org/Team ID:** team_1h3rOPZKGzoeDRYoMHHG8Wls (the new "nicholas-street-games" workspace;
+  the old Grounded ID team_5hTfGHmr8MLt1hcg5xuyYGVm no longer applies).
 - **Framework:** Next.js (auto-detected)
 - **Build command:** `next build`
 - **Output:** Static pages + serverless API functions
@@ -549,20 +548,20 @@ vercel project add nicholas-street-games --scope nicholas-street-games
 
 # Get project ID via API
 curl -s -H "Authorization: Bearer $TOKEN" \
-  "https://api.vercel.com/v9/projects/nicholas-street-games?teamId=team_5hTfGHmr8MLt1hcg5xuyYGVm"
+  "https://api.vercel.com/v9/projects/nicholas-street-games?teamId=team_1h3rOPZKGzoeDRYoMHHG8Wls"
 
 # Create .vercel/project.json
-echo '{"orgId":"team_5hTfGHmr8MLt1hcg5xuyYGVm","projectId":"prj_VAC8seTCptOntreKm4LTewXlD1BH"}' > .vercel/project.json
+echo '{"orgId":"team_1h3rOPZKGzoeDRYoMHHG8Wls","projectId":"prj_VAC8seTCptOntreKm4LTewXlD1BH"}' > .vercel/project.json
 
 # Set framework
 curl -X PATCH -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
   -d '{"framework":"nextjs"}' \
-  "https://api.vercel.com/v9/projects/prj_VAC8seTCptOntreKm4LTewXlD1BH?teamId=team_5hTfGHmr8MLt1hcg5xuyYGVm"
+  "https://api.vercel.com/v9/projects/prj_VAC8seTCptOntreKm4LTewXlD1BH?teamId=team_1h3rOPZKGzoeDRYoMHHG8Wls"
 
 # Disable SSO protection
 curl -X PATCH -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
   -d '{"ssoProtection":null}' \
-  "https://api.vercel.com/v9/projects/prj_VAC8seTCptOntreKm4LTewXlD1BH?teamId=team_5hTfGHmr8MLt1hcg5xuyYGVm"
+  "https://api.vercel.com/v9/projects/prj_VAC8seTCptOntreKm4LTewXlD1BH?teamId=team_1h3rOPZKGzoeDRYoMHHG8Wls"
 
 # Add domain
 curl -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
@@ -572,7 +571,7 @@ curl -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/jso
 # Enable DNS zone (required before adding DNS records)
 curl -X PATCH -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
   -d '{"zone":true}' \
-  "https://api.vercel.com/v6/domains/nicholasstreetgames.com?teamId=team_5hTfGHmr8MLt1hcg5xuyYGVm"
+  "https://api.vercel.com/v6/domains/nicholasstreetgames.com?teamId=team_1h3rOPZKGzoeDRYoMHHG8Wls"
 
 # Then add DNS records (MX, CNAME, TXT) — see DNS Records section above
 
