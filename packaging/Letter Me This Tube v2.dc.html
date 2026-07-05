@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<style>
+  body { margin:0; background:#5b6b73; }
+  * { box-sizing:border-box; }
+</style>
+</helmet>
+
+<div style="min-height:100vh; padding:64px; font-family:'Nunito',sans-serif; display:flex; flex-direction:column; gap:52px; align-items:flex-start; background:radial-gradient(circle at 30% 0%, #6d7d85, #4c5a61);">
+
+  <!-- ===== HEADER / SPEC ===== -->
+  <div style="max-width:1180px; color:#fff;">
+    <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px; letter-spacing:.22em; text-transform:uppercase; color:#7fe0f5;">Nicholas Street Games&#8482; &nbsp;·&nbsp; Roastar White Labeled Tube · 4&Prime;D × 6.125&Prime;H</div>
+    <h1 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:46px; margin:10px 0 14px; line-height:1.02;">Letter Me This! — Wrap Label</h1>
+    <p style="font-size:17px; line-height:1.6; max-width:860px; color:#e6eef1; margin:0 0 20px;">Rebuilt to Roastar’s official paper-tube template. It’s a <b>single 360° wrap label</b> — no printed lid, top or bottom disc. The tube’s own white ends stay bare, so all content lives on one continuous band.</p>
+    <div style="display:flex; flex-wrap:wrap; gap:10px;">
+      <span style="background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:7px 15px; font-weight:700; font-size:13px;">Trim 12.372 × 5.844&Prime;</span>
+      <span style="background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:7px 15px; font-weight:700; font-size:13px;">Bleed 12.497 × 5.969&Prime; (1/16&Prime;)</span>
+      <span style="background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:7px 15px; font-weight:700; font-size:13px;">Safe 1/16&Prime; inside trim</span>
+      <span style="background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:7px 15px; font-weight:700; font-size:13px;">CMYK · 300dpi · fonts outlined</span>
+      <span style="background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:7px 15px; font-weight:700; font-size:13px;">Barcode ≥ 1.5 × 1&Prime;</span>
+    </div>
+  </div>
+
+  <!-- ===== 1 · MOCKUP ===== -->
+  <div style="width:100%;">
+    <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; letter-spacing:.2em; text-transform:uppercase; color:#cfe9f2; margin-bottom:20px;">01 — Shelf mockup (white tube, bare ends)</div>
+    <div id="pptx-mockup" style="display:flex; gap:70px; align-items:flex-end; flex-wrap:wrap;">
+
+      <!-- tube -->
+      <div style="position:relative; width:392px; filter:drop-shadow(0 40px 40px rgba(0,0,0,.35));">
+        <!-- bare white cap -->
+        <div style="position:relative; height:60px; border-radius:50% 50% 6px 6px / 46px 46px 6px 6px; background:linear-gradient(90deg,#c9ccce 0%,#eef0f1 20%,#ffffff 46%,#e4e7e8 74%,#bfc3c5 100%); box-shadow:inset 0 -8px 14px rgba(0,0,0,.14);">
+          <div style="position:absolute; top:2px; left:0; right:0; height:22px; border-radius:50%; background:linear-gradient(90deg,#b8bcbe,#e9ebec 45%,#ffffff 55%,#b8bcbe);"></div>
+        </div>
+        <!-- label body -->
+        <div style="position:relative; height:452px; margin-top:-30px; overflow:hidden; border-radius:4px; background:linear-gradient(90deg,#bfe3f4 0%,#e8f6fd 42%,#f4fbff 52%,#d3ecf8 78%,#a9d4ea 100%);">
+          <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(4,40,55,.28) 0%, rgba(4,40,55,0) 22%, rgba(255,255,255,.35) 50%, rgba(4,40,55,0) 80%, rgba(4,40,55,.3) 100%); z-index:5; pointer-events:none;"></div>
+          <div style="position:relative; z-index:2; height:100%; display:flex; flex-direction:column; align-items:center; padding:34px 40px 30px; text-align:center;">
+            <div style="position:relative; display:inline-block; margin-top:26px;">
+              <img src="assets/logo_trim.png" alt="Letter Me This logo" style="width:180px; height:auto; display:block;">
+              <span style="position:absolute; top:4px; right:-2px; font-family:'Fredoka'; font-weight:600; font-size:14px; color:#14647a;">™</span>
+            </div>
+            <div style="font-family:'Fredoka',sans-serif; font-weight:500; font-style:italic; color:#166b82; font-size:13.5px; margin-top:2px; line-height:1.3;">The party game where your<br>friends define you!</div>
+            <div style="flex:1;"></div>
+            <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:20px; color:#123a47;">
+              <span style="color:#1aa3c2;">Roll.</span> <span style="color:#ffb400;">Write.</span> <span style="color:#f14a3d;">Reveal.</span> <span style="color:#2e7d46;">Laugh.</span>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:16px;">
+              <span style="background:#1aa3c2; color:#fff; font-weight:800; font-size:11px; border-radius:999px; padding:5px 11px;">3–8 PLAYERS</span>
+            </div>
+          </div>
+        </div>
+        <!-- bare white bottom cap -->
+        <div style="position:relative; height:40px; margin-top:-20px; border-radius:6px 6px 50% 50% / 6px 6px 40px 40px; background:linear-gradient(90deg,#b4b8ba 0%,#dfe2e3 30%,#f4f6f6 52%,#cfd3d4 78%,#a9adaf 100%); box-shadow:inset 0 8px 12px rgba(0,0,0,.12);"></div>
+      </div>
+
+      <div style="max-width:300px; color:#dfeaee; font-size:15px; line-height:1.65;">
+        <p style="margin:0 0 12px;">The label wraps the barrel only — the tube’s <b>white crimped ends</b> stay bare, so there’s no lid or disc art to produce.</p>
+        <p style="margin:0;">Seam sits at back-center, hidden behind the barcode/legal panel.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 2 · WRAP LABEL FLAT ===== -->
+  <div>
+    <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; letter-spacing:.2em; text-transform:uppercase; color:#cfe9f2; margin-bottom:8px;">02 — Wrap label · flat to Roastar template (unwrapped 360°)</div>
+    <div style="color:#aebfc6; font-size:13px; margin-bottom:20px; font-family:'Nunito';">Left &amp; right edges meet at the back seam. <span style="color:#ff5fa8;">▬ pink = bleed (1/16&Prime;)</span> &nbsp; <span style="color:#123a47; background:#cfe9f2; padding:1px 6px; border-radius:4px;">— trim</span> &nbsp; <span style="color:#00ab4f;">- - green = safe zone</span></div>
+
+    <!-- artboard 1500 x 716 (bleed). trim 1485x701, bleed 7.5px -->
+    <div id="pptx-body" style="position:relative; width:1500px; height:716px; background:#c9d6db; padding:7.5px;">
+      <div style="position:absolute; inset:0; border:2px dashed #ff5fa8;"></div>
+      <div style="position:relative; width:1485px; height:701px; overflow:hidden; box-shadow:0 0 0 2px #123a47; display:flex; font-family:'Nunito',sans-serif;">
+
+        <!-- ZONE A · FRONT (470) -->
+        <div style="width:470px; height:100%; position:relative; background:radial-gradient(circle at 50% 30%, #eaf7fe 0%, #cfe9f7 60%, #b7ddf1 100%); display:flex; flex-direction:column; align-items:center; padding:44px 36px 34px; text-align:center;">
+          <div style="position:absolute; top:26px; left:28px; width:14px; height:14px; border-radius:50%; background:#ffce1f;"></div>
+          <div style="position:absolute; top:74px; right:38px; width:10px; height:10px; border-radius:50%; background:#f14a3d;"></div>
+          <div style="position:absolute; top:150px; left:44px; width:9px; height:9px; border-radius:50%; background:#1aa3c2;"></div>
+          <div style="position:absolute; bottom:150px; right:34px; width:12px; height:12px; border-radius:50%; background:#2e7d46;"></div>
+          <div style="position:relative; display:inline-block; margin-top:8px;">
+            <img src="assets/logo_trim.png" alt="Letter Me This" style="width:300px; height:auto; display:block;">
+            <span style="position:absolute; top:8px; right:-2px; font-family:'Fredoka'; font-weight:600; font-size:22px; color:#14647a;">™</span>
+          </div>
+          <div style="font-family:'Fredoka',sans-serif; font-weight:500; font-style:italic; color:#14647a; font-size:19px; margin-top:4px; line-height:1.25;">The party game where your friends define you!</div>
+          <div style="flex:1;"></div>
+          <div style="width:70%; height:3px; border-radius:2px; background:#1aa3c2; opacity:.35; margin-bottom:22px;"></div>
+          <div style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:38px; line-height:1.05;">
+            <span style="color:#1aa3c2;">Roll.</span> <span style="color:#ffb400;">Write.</span><br><span style="color:#f14a3d;">Reveal.</span> <span style="color:#2e7d46;">Laugh.</span>
+          </div>
+          <div style="display:flex; gap:12px; margin-top:30px;">
+            <span style="background:#1aa3c2; color:#fff; font-family:'Fredoka'; font-weight:600; font-size:16px; border-radius:999px; padding:9px 18px;">3–8 Players</span>
+          </div>
+        </div>
+
+        <!-- ZONE B · HOW TO PLAY (400) -->
+        <div style="width:400px; height:100%; position:relative; background:{{ accentBg }}; padding:38px 30px 30px; display:flex; flex-direction:column;">
+          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:32px; color:#fff; letter-spacing:.01em; margin-bottom:4px;">How to Play</div>
+          <div style="width:64px; height:5px; border-radius:3px; background:#ffce1f; margin-bottom:22px;"></div>
+          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+            <div style="display:flex; gap:14px; align-items:flex-start; margin-bottom:17px;">
+              <div style="flex:none; width:34px; height:34px; border-radius:50%; background:{{ s.c }}; color:{{ s.tc }}; font-family:'Fredoka'; font-weight:700; font-size:18px; display:flex; align-items:center; justify-content:center;">{{ s.n }}</div>
+              <div style="color:#fff; padding-top:1px;">
+                <div style="font-family:'Fredoka'; font-weight:600; font-size:17px; line-height:1.1;">{{ s.t }}</div>
+                <div style="font-size:14px; line-height:1.35; color:rgba(255,255,255,.92); margin-top:2px;">{{ s.d }}</div>
+              </div>
+            </div>
+          </sc-for>
+          <div style="margin-top:auto; display:flex; flex-direction:column; gap:11px;">
+            <div style="background:rgba(255,255,255,.15); border-radius:14px; padding:13px 15px;">
+              <div style="display:flex; align-items:center; gap:9px;">
+                <span style="flex:none; width:26px; height:26px; border-radius:50%; background:#ffce1f; color:#123a47; font-family:'Fredoka'; font-weight:700; font-size:15px; display:flex; align-items:center; justify-content:center;">&#9788;</span>
+                <div style="font-family:'Fredoka'; font-weight:700; font-size:16.5px; color:#fff; line-height:1.1;">Chat with Nickie — Our AI Game Master</div>
+              </div>
+              <div style="font-size:13px; line-height:1.4; color:rgba(255,255,255,.94); margin-top:8px;">Endless rule variations, new modes, and mid-game debates — settled. Scan the QR code or visit nicholasstreetgames.com/our-games.</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:13px; background:rgba(255,255,255,.15); border-radius:14px; padding:12px 14px;">
+              <img src="assets/qr.png" alt="Scan for rules" style="width:84px; height:84px; background:#fff; border-radius:9px; padding:5px; flex:none;">
+              <div style="color:#fff;">
+                <div style="font-family:'Fredoka'; font-weight:600; font-size:15px; line-height:1.15;">Scan for rules, videos, and fun variations and ways to play</div>
+                <div style="font-size:12.5px; color:rgba(255,255,255,.92); margin-top:3px;">nicholasstreetgames.com/our-games</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ZONE C · WHAT'S INSIDE (320) -->
+        <div style="width:320px; height:100%; position:relative; background:linear-gradient(180deg,#e7f4ea 0%,#dcefdf 100%); padding:38px 28px 30px; display:flex; flex-direction:column;">
+          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:29px; color:#123a47; margin-bottom:4px;">What’s Inside</div>
+          <div style="width:58px; height:5px; border-radius:3px; background:#f14a3d; margin-bottom:20px;"></div>
+          <sc-for list="{{ inside }}" as="it" hint-placeholder-count="7">
+            <div style="display:flex; gap:11px; align-items:center; margin-bottom:12px;">
+              <div style="flex:none; width:23px; height:23px; border-radius:6px; background:#ffce1f; color:#123a47; font-family:'Fredoka'; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center;">{{ it.q }}</div>
+              <div style="font-size:14.5px; color:#274653; font-weight:600; line-height:1.15;">{{ it.name }}</div>
+            </div>
+          </sc-for>
+          <div style="flex:1;"></div>
+          <img src="assets/hero.png" alt="Players enjoying the game" style="width:100%; height:150px; object-fit:cover; object-position:center top; border-radius:12px; box-shadow:0 3px 10px rgba(0,0,0,.14);">
+        </div>
+
+        <!-- ZONE D · BACK / LEGAL / BARCODE (295) -->
+        <div style="width:295px; height:100%; position:relative; background:#123a47; padding:30px 22px 26px; display:flex; flex-direction:column; color:#dcecf2;">
+          <div style="display:flex; gap:8px; margin-bottom:16px;">
+            <span style="background:#ffce1f; color:#123a47; font-family:'Fredoka'; font-weight:700; font-size:14px; border-radius:999px; padding:5px 14px;">Ages 14+</span>
+            <span style="background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.32); color:#fff; font-family:'Fredoka'; font-weight:600; font-size:12px; border-radius:999px; padding:5px 12px; display:flex; align-items:center;">Printed in USA</span>
+          </div>
+
+          <div style="background:#ffd9d4; color:#8a1c12; border-radius:8px; padding:9px 11px; font-size:11.5px; line-height:1.35; font-weight:700;">
+            ⚠ CHOKING HAZARD — Small parts. Not for children under 3 years.
+          </div>
+
+          <div style="margin-top:16px; display:flex; flex-direction:column; gap:9px;">
+            <div><div style="font-family:'Fredoka'; font-weight:600; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#7fd8ee;">Created by</div><div style="font-size:12.5px; color:#fff; font-weight:700; margin-top:1px;">Nicholas Street Games&#8482;</div></div>
+            <div><div style="font-family:'Fredoka'; font-weight:600; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#7fd8ee;">Website</div><div style="font-size:12.5px; color:#fff; margin-top:1px;">nicholasstreetgames.com</div></div>
+            <div><div style="font-family:'Fredoka'; font-weight:600; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#7fd8ee;">Instagram</div><div style="font-size:12.5px; color:#fff; margin-top:1px;">@lettermethisgame</div></div>
+            <div><div style="font-family:'Fredoka'; font-weight:600; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#7fd8ee;">TikTok</div><div style="font-size:12.5px; color:#fff; margin-top:1px;">@lettermethis1</div></div>
+            <div><div style="font-family:'Fredoka'; font-weight:600; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#7fd8ee;">Contact</div><div style="font-size:12.5px; color:#fff; margin-top:1px;">info@nicholasstreetgames.com</div></div>
+          </div>
+
+          <div style="flex:1;"></div>
+
+          <div style="border:1px dashed rgba(255,255,255,.42); border-radius:6px; padding:7px 10px; margin-bottom:12px; font-size:9.5px; line-height:1.45; color:#bcd7e0;">
+            <span style="font-family:'Fredoka'; font-weight:700; color:#7fd8ee; letter-spacing:.08em;">CPSIA TRACKING LABEL</span><br>
+            Batch #&nbsp;______ &nbsp;·&nbsp; Date&nbsp;__/____ &nbsp;·&nbsp; USA &nbsp;·&nbsp; Facility&nbsp;____
+            <span style="display:block; color:#7e9fac; margin-top:1px;">(codes applied at production)</span>
+          </div>
+
+          <div style="background:#fff; border-radius:8px; padding:9px 11px 5px; display:flex; flex-direction:column; align-items:center;">
+            <svg id="lmt-barcode2" style="width:100%; height:74px;"></svg>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-top:12px;">
+            <img src="assets/nsg.png" alt="Nicholas Street Games" style="width:88px; height:auto; opacity:.95;">
+            <div style="font-family:'Fredoka'; font-weight:500; font-size:9.5px; line-height:1.25; color:#9dc3d0; text-align:left;">Nicholas Street<br>Games™ · Est. 2026</div>
+          </div>
+          <div style="font-size:9.5px; color:#8fb3c0; text-align:center; margin-top:8px;">© 2026 Nicholas Street Games™, LLC. All rights reserved.</div>
+        </div>
+
+        <!-- SAFE AREA overlay (1/16in = 7.5px inside trim) -->
+        <sc-if value="{{ guides }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute; inset:7.5px; border:2px dashed #00ab4f; pointer-events:none; z-index:20;"></div>
+        </sc-if>
+        <sc-if value="{{ guides }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute; top:-7.5px; left:0; bottom:-7.5px; width:0; border-left:2px dashed #123a47; z-index:20;"></div>
+        </sc-if>
+        <sc-if value="{{ guides }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute; top:-7.5px; right:0; bottom:-7.5px; width:0; border-left:2px dashed #123a47; z-index:20;"></div>
+        </sc-if>
+      </div>
+
+      <div style="position:absolute; left:7.5px; right:7.5px; bottom:-30px; height:24px; display:flex; font-family:'Fredoka'; font-weight:600; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#5b6b73;">
+        <div style="width:470px; text-align:center;">Front</div>
+        <div style="width:400px; text-align:center;">How to Play</div>
+        <div style="width:320px; text-align:center;">What’s Inside</div>
+        <div style="width:295px; text-align:center;">Back · Seam</div>
+      </div>
+      <div style="position:absolute; left:0; top:-26px; font-family:'Fredoka'; font-weight:600; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#8ea0a7;">◄ back seam</div>
+      <div style="position:absolute; right:0; top:-26px; font-family:'Fredoka'; font-weight:600; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#8ea0a7;">back seam ►</div>
+    </div>
+    <p style="color:#aebfc6; font-size:13px; margin:44px 0 0; max-width:960px; font-family:'Nunito';">Final step: place this artboard on Roastar’s downloaded template layer, delete the template/guides layer before export, outline fonts, and save as high-quality PDF (CMYK) sized to the 12.497 × 5.969&Prime; bleed.</p>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1600,&quot;height&quot;:1000},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#1aa3c2&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Style&quot;},&quot;showGuides&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Print&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const accentSolid = this.props.accent ?? '#1aa3c2';
+    return {
+      guides: this.props.showGuides ?? true,
+      accentBg: accentSolid,
+      steps: [
+        { n: '1', t: 'Pick a Subject', d: 'One player becomes The Subject for the round.', c: '#1aa3c2', tc: '#fff' },
+        { n: '2', t: 'Roll the Dice', d: 'Roll the alphabet die and the number die.', c: '#f14a3d', tc: '#fff' },
+        { n: '3', t: 'Write Fast!', d: 'Words starting with that letter that describe The Subject.', c: '#ffce1f', tc: '#123a47' },
+        { n: '4', t: 'Reveal & Score', d: 'Read aloud — unique approved words score 1 point each.', c: '#2e7d46', tc: '#fff' },
+        { n: '5', t: 'Rotate', d: 'Next player becomes The Subject. Play on!', c: '#2e6db4', tc: '#fff' },
+      ],
+      inside: [
+        { q: '1', name: '20-sided alphabet die' },
+        { q: '1', name: '6-sided number die' },
+        { q: '1', name: 'Dice canister' },
+        { q: '1', name: 'Writing pad (25 sheets)' },
+        { q: '6', name: 'Pencils' },
+        { q: '1', name: 'Pencil sharpener' },
+        { q: '1', name: 'Instruction sheet' },
+      ],
+    };
+  }
+  componentDidMount() { this.drawBarcode(); }
+  componentDidUpdate() { this.drawBarcode(); }
+  drawBarcode() {
+    try {
+      const el = this.el ? this.el.querySelector('#lmt-barcode2') : document.getElementById('lmt-barcode2');
+      if (el && window.JsBarcode) {
+        window.JsBarcode(el, '0199874975214', {
+          format: 'EAN13', width: 2.2, height: 58, fontSize: 15,
+          font: 'Nunito', margin: 0, textMargin: 2, background: '#ffffff', lineColor: '#111111'
+        });
+      }
+    } catch (e) { /* silent */ }
+  }
+}
+</script>
+</body>
+</html>
