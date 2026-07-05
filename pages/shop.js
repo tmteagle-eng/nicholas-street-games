@@ -52,6 +52,8 @@ export default function Shop() {
                   <span style={{ fontSize: 56 }} role="img" aria-label={p.name}>{p.emoji}</span>
                   {p.badge && <span style={{ ...s.badge, background: p.color }}>{p.badge}</span>}
                   <span style={s.typeTag}>{TYPE_LABEL[p.type] || 'Item'}</span>
+                  <div style={s.soonWash} aria-hidden="true" />
+                  <span style={s.soonSticker}>Coming Soon</span>
                 </div>
                 <div style={s.cardBody}>
                   <h3 style={s.name}>{p.name}</h3>
@@ -114,6 +116,20 @@ const s = {
     position: 'absolute', top: 12, right: 12, color: colors.inkSoft, background: '#ffffffcc',
     fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 11, letterSpacing: '0.06em',
     textTransform: 'uppercase', padding: '4px 10px', borderRadius: 999,
+  },
+  soonWash: {
+    position: 'absolute', inset: 0,
+    background: 'rgba(251,250,245,0.45)',
+  },
+  soonSticker: {
+    position: 'absolute', top: '50%', left: '50%',
+    transform: 'translate(-50%,-50%) rotate(-8deg)',
+    fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 17, letterSpacing: '0.02em',
+    color: '#fff', background: colors.coral,
+    padding: '9px 20px', borderRadius: 999,
+    border: '3px solid #fff',
+    boxShadow: '0 6px 18px rgba(20,40,35,0.22)',
+    whiteSpace: 'nowrap',
   },
   cardBody: { padding: '20px 20px 22px', display: 'flex', flexDirection: 'column', gap: 6, flex: 1 },
   name: { fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 21, color: colors.ink },
