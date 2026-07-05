@@ -74,6 +74,7 @@ export default function LetterMeThis() {
 
           <div style={s.heroBtns}>
             <Link href="/buy" style={ui.btnPrimary}>Buy the Game</Link>
+            <Link href="/nickie" style={ui.btnTeal}>✨ Chat with Nickie</Link>
             <a href={DICE_ROLLER_URL} style={ui.btnGhost} target="_blank" rel="noopener noreferrer">Try the Dice Roller</a>
           </div>
         </div>
