@@ -17,7 +17,8 @@ Website for Nicholas Street Games — home of the Letter Me This! board game. In
 ## Pages
 - `/` — Homepage
 - `/about` — About page
-- `/our-games` — Games catalog
+- `/letter-me-this` — Dedicated Letter Me This! game page (how to play, what's inside, game modes, Nickie AI game master, testimonials, buy). This is the printed box QR-code destination.
+- `/our-games` — 301-redirects to `/letter-me-this` (via next.config.js). Kept so the printed box QR code stays valid.
 - `/buy` — Buy page (currently "Coming Soon")
 - `/launch` — Original party invitation page (hidden, not in nav)
 - `/party` — Party confirmation page sent to confirmed guests. Has sticky yellow release banner, event details, "Here's the Deal" cards, release CTA, regrets link
@@ -45,14 +46,21 @@ All data stored in Upstash Redis as JSON-stringified entries in lists:
 - RESEND_API_KEY
 
 ## Design
-- Fonts: Bebas Neue + Nunito (Google Fonts)
-- Brand colors: #20B2AA (teal), #F5C518 (yellow), #E85D3D (coral/red), #3a7d44 (green), #1a1a1a (dark)
-- Party page uses `<style jsx>` with className-based CSS
-- Dashboard and other pages use inline style objects
+- **Marketing pages** (`/`, `/letter-me-this`, `/about`, `/buy`, Nav, Footer) use the
+  "sunny packaging" aesthetic that matches the production box/insert: warm light grounds,
+  rounded **Baloo 2** display type + Nunito body, brand hues as playful accents (colored
+  circle step-badges, pill tags), one deep-teal (#0C5C63) panel for contrast. Shared tokens
+  and reusable style fragments live in `styles/tokens.js` (`colors`, `ui`, `FONT_DISPLAY`, `SLOGAN`, etc.).
+- **Event/admin pages** (`/party`, `/cancel`, `/release`, `/releases`, `/rsvps`, `/launch`) keep
+  their original dark Bebas Neue aesthetic — they are event tooling, not marketing.
+- Brand colors: #20B2AA (teal), #F5C518 (yellow), #E85D3D (coral/red), #3a7d44 (green), #0C5C63 (deep teal), #1a1a1a (dark)
+- Fonts loaded in `pages/_document.js`: Baloo 2 + Bebas Neue + Nunito (Google Fonts)
+- Game facts (source of truth = production box): 3–8 players, ages 14+, 20+ min, 90-second timer, slogan "Roll. Write. Reveal. Laugh."
 
 ## Contact
-- Email: tim@nicholasstreetgames.com (Microsoft 365)
-- TikTok: @LetterMeThis1
+- Ops/admin email: tim@nicholasstreetgames.com (Microsoft 365)
+- Public marketing email (shown on the site, matches the box): info@nicholasstreetgames.com
+- Instagram: @lettermethisgame · TikTok: @lettermethis1
 
 ## Deploy
 ```bash

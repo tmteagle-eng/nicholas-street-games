@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import { colors, FONT_DISPLAY, FONT_BODY, ui, LOGO_NSG, DICE_ROLLER_URL } from '../styles/tokens'
 
 export default function About() {
   return (
@@ -11,45 +12,44 @@ export default function About() {
 
       {/* ── PAGE HERO ── */}
       <section style={s.pageHero}>
-        <p style={s.eyebrow}>Our Story</p>
-        <h1 style={s.pageTitle}>About<br />Nicholas Street Games</h1>
+        <p style={ui.eyebrow}>Our Story</p>
+        <h1 style={s.pageTitle}>About Nicholas Street Games</h1>
       </section>
 
       <div className="color-bar" />
 
       {/* ── ORIGIN STORY ── */}
-      <section style={{padding:'96px 24px', background:'#fff'}}>
+      <section style={{ ...s.section, background: colors.white }}>
         <div style={s.storyGrid}>
-          <div style={s.storyText}>
-            <p style={s.labelTeal}>Where It Started</p>
-            <h2 style={s.secTitle}>A Cul-de-Sac.<br />A Table.<br />The Right People.</h2>
-            <p style={s.bodyText}>
+          <div>
+            <p style={ui.eyebrow}>Where It Started</p>
+            <h2 style={ui.h2}>A cul-de-sac. A table. The right people.</h2>
+            <p style={{ ...ui.body, marginTop: 20 }}>
               Nicholas Street is a cul-de-sac in Southern California where something kind of
-              rare happened — neighbors became friends, families became regulars at each other&apos;s
+              rare happened — neighbors became friends, families became regulars at each other’s
               tables, and game nights became a standing tradition.
             </p>
-            <p style={s.bodyText}>
+            <p style={{ ...ui.body, marginTop: 16 }}>
               Out of those nights came <em>Letter Me This!</em> — a game designed to do exactly
               what the best games do: give a room full of people something to laugh about,
               argue over, and remember the next day.
             </p>
-            <p style={s.bodyText}>
-              We named the company after that street because it&apos;s where the whole thing
+            <p style={{ ...ui.body, marginTop: 16 }}>
+              We named the company after that street because it’s where the whole thing
               started. Games have always been about the people around the table, and
               Nicholas Street Games will always be built with that in mind.
             </p>
           </div>
 
-          {/* Visual accent */}
           <div style={s.accentCol}>
-            <img src="/images/nsg-logo.png" alt="Nicholas Street Games" style={s.logoImg} />
+            <img src={LOGO_NSG} alt="Nicholas Street Games" style={s.logoImg} />
             <div style={s.statGrid}>
               {[
-                { num:'1',           label:'Game so far' },
-                { num:'Southern CA', label:'Home base' },
-                { num:'1,000+',      label:'Units in first run' },
-                { num:'∞',           label:'Good times ahead' },
-              ].map(({num, label}) => (
+                { num: '1',           label: 'Game so far' },
+                { num: 'Southern CA', label: 'Home base' },
+                { num: '1,000+',      label: 'Units in first run' },
+                { num: '∞',           label: 'Good times ahead' },
+              ].map(({ num, label }) => (
                 <div key={label} style={s.statBox}>
                   <div style={s.statNum}>{num}</div>
                   <div style={s.statLabel}>{label}</div>
@@ -60,25 +60,35 @@ export default function About() {
         </div>
       </section>
 
-      <div className="color-bar" />
+      {/* ── FOUNDER NOTE ── */}
+      <section style={{ ...s.section, background: colors.sun }}>
+        <div style={s.founderCard}>
+          <div style={s.founderBadge}>A Note From Our Founder</div>
+          <p style={s.founderQuote}>
+            “Thank you so much for buying our game. This was a crazy idea that started in our kitchen
+            and became something our friends and family all loved. My sincere hope is that it brings
+            your friends and family the same laughs and joy it has for us. If it does… tell your friends!”
+          </p>
+          <p style={s.founderSign}>Jami Johnson</p>
+          <p style={s.founderRole}>Founder, Nicholas Street Games</p>
+        </div>
+      </section>
 
       {/* ── MISSION ── */}
-      <section style={{background:'#1a1a1a', padding:'96px 24px', textAlign:'center'}}>
-        <div style={{maxWidth:720, margin:'0 auto'}}>
-          <p style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:11, letterSpacing:5, color:'#F5C518', marginBottom:12}}>
-            What We Believe
-          </p>
-          <h2 style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:'clamp(32px,5vw,52px)', color:'#fff', letterSpacing:2, lineHeight:1.1, marginBottom:32}}>
-            The Best Games Don&apos;t Come From Boxes.<br />They Come From the People Playing Them.
+      <section style={{ ...s.section, background: colors.deepTeal, textAlign: 'center' }}>
+        <div style={{ maxWidth: 720, margin: '0 auto' }}>
+          <p style={{ ...ui.eyebrow, color: colors.yellow }}>What We Believe</p>
+          <h2 style={{ ...ui.h2, color: '#fff' }}>
+            The best games don’t come from boxes. They come from the people playing them.
           </h2>
-          <p style={{fontSize:17, color:'#888', lineHeight:1.85, marginBottom:16}}>
+          <p style={{ ...ui.lead, color: '#B9DAD8', margin: '24px auto 16px' }}>
             Anyone can design a game with complex rules and a hundred components.
-            We&apos;re more interested in the moment when someone says something about their
+            We’re more interested in the moment when someone says something about their
             best friend that makes the whole table lose it — the kind of moment that gets
             brought up for years.
           </p>
-          <p style={{fontSize:17, color:'#888', lineHeight:1.85}}>
-            That&apos;s what <em style={{color:'#ccc'}}>Letter Me This!</em> is built for.
+          <p style={{ ...ui.lead, color: '#B9DAD8', margin: '0 auto' }}>
+            That’s what <em style={{ color: '#EAF6F5' }}>Letter Me This!</em> is built for.
             Every game we make will chase that same feeling.
           </p>
         </div>
@@ -87,12 +97,12 @@ export default function About() {
       <div className="color-bar" />
 
       {/* ── CTA ── */}
-      <section style={{padding:'80px 24px', background:'#f8f7f3', textAlign:'center'}}>
-        <p style={s.labelTeal}>Ready to Play?</p>
-        <h2 style={{...s.secTitle, marginBottom:32}}>Coming Soon.</h2>
-        <div style={{display:'flex', gap:16, justifyContent:'center', flexWrap:'wrap'}}>
-          <Link href="/our-games" style={s.btnPrimary}>Learn About the Game</Link>
-          <a href="https://tmteagle-eng.github.io/letter-me-this/" style={s.btnSecondary} target="_blank" rel="noopener noreferrer">Try the Dice Roller</a>
+      <section style={{ ...s.section, background: colors.ground, textAlign: 'center' }}>
+        <p style={ui.eyebrow}>Ready to Play?</p>
+        <h2 style={ui.h2}>Meet the Game.</h2>
+        <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginTop: 30 }}>
+          <Link href="/letter-me-this" style={ui.btnPrimary}>Explore Letter Me This!</Link>
+          <a href={DICE_ROLLER_URL} style={ui.btnGhost} target="_blank" rel="noopener noreferrer">Try the Dice Roller</a>
         </div>
       </section>
     </>
@@ -101,63 +111,45 @@ export default function About() {
 
 const s = {
   pageHero: {
-    background:'#1a1a1a', padding:'80px 24px 64px',
-    textAlign:'center', borderBottom:'3px solid #E85D3D',
-  },
-  eyebrow: {
-    fontFamily:"'Bebas Neue',sans-serif", fontSize:11,
-    letterSpacing:5, color:'#20B2AA', marginBottom:12,
+    padding: '84px 24px 60px', textAlign: 'center',
+    background: `radial-gradient(60% 80% at 80% 10%, ${colors.teal}1a 0%, transparent 60%), ${colors.ground}`,
   },
   pageTitle: {
-    fontFamily:"'Bebas Neue',sans-serif",
-    fontSize:'clamp(44px,7vw,72px)',
-    color:'#fff', letterSpacing:3, lineHeight:1.05,
+    fontFamily: FONT_DISPLAY, fontWeight: 800,
+    fontSize: 'clamp(40px,7vw,72px)', color: colors.ink,
+    letterSpacing: '-0.01em', lineHeight: 1.05, textWrap: 'balance',
   },
+  section: { padding: '84px 24px' },
   storyGrid: {
-    maxWidth:960, margin:'0 auto',
-    display:'grid', gridTemplateColumns:'1fr 1fr',
-    gap:64, alignItems:'start',
+    maxWidth: 1000, margin: '0 auto',
+    display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 64, alignItems: 'start',
   },
-  storyText: {},
-  labelTeal: {
-    fontFamily:"'Bebas Neue',sans-serif",
-    fontSize:11, letterSpacing:5, color:'#20B2AA',
-    marginBottom:12, textTransform:'uppercase',
-  },
-  secTitle: {
-    fontFamily:"'Bebas Neue',sans-serif",
-    fontSize:'clamp(30px,4vw,46px)',
-    lineHeight:1.05, letterSpacing:2, marginBottom:28,
-  },
-  bodyText: {
-    fontSize:17, lineHeight:1.85, color:'#444', marginBottom:20,
-  },
-  accentCol: { display:'flex', flexDirection:'column', gap:32, alignItems:'center' },
-  logoImg: {
-    width:'100%', maxWidth:320, height:'auto',
-    filter:'drop-shadow(0 8px 24px rgba(0,0,0,0.12))',
-  },
-  statGrid: {
-    display:'grid', gridTemplateColumns:'1fr 1fr', gap:16, width:'100%',
-  },
+  accentCol: { display: 'flex', flexDirection: 'column', gap: 32, alignItems: 'center' },
+  logoImg: { width: '100%', maxWidth: 300, height: 'auto', filter: 'drop-shadow(0 10px 28px rgba(20,40,35,0.12))' },
+  statGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, width: '100%' },
   statBox: {
-    background:'#f8f7f3', borderRadius:6, padding:'20px',
-    textAlign:'center', borderTop:'3px solid #20B2AA',
+    background: colors.mint, borderRadius: 14, padding: 20,
+    textAlign: 'center', borderTop: `3px solid ${colors.teal}`,
   },
-  statNum: {
-    fontFamily:"'Bebas Neue',sans-serif", fontSize:28,
-    letterSpacing:2, color:'#1a1a1a', marginBottom:4,
+  statNum: { fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 26, color: colors.ink, marginBottom: 4 },
+  statLabel: { fontFamily: FONT_BODY, fontSize: 13, color: colors.inkSoft },
+
+  founderCard: {
+    maxWidth: 760, margin: '0 auto', textAlign: 'center',
+    background: colors.white, border: `1.5px solid ${colors.yellow}66`,
+    borderRadius: 24, padding: '44px 40px', boxShadow: '0 12px 34px rgba(20,40,35,0.07)',
   },
-  statLabel: { fontSize:12, color:'#888', letterSpacing:'0.5px' },
-  btnPrimary: {
-    fontFamily:"'Bebas Neue',sans-serif", fontSize:17, letterSpacing:2,
-    background:'#E85D3D', color:'#fff',
-    padding:'14px 36px', borderRadius:3, textDecoration:'none',
+  founderBadge: {
+    display: 'inline-block', fontFamily: FONT_DISPLAY, fontWeight: 700,
+    fontSize: 13, letterSpacing: '0.14em', textTransform: 'uppercase',
+    color: colors.coralInk, marginBottom: 20,
   },
-  btnSecondary: {
-    fontFamily:"'Bebas Neue',sans-serif", fontSize:17, letterSpacing:2,
-    background:'transparent', color:'#1a1a1a',
-    border:'2px solid #1a1a1a',
-    padding:'12px 34px', borderRadius:3, textDecoration:'none',
+  founderQuote: {
+    fontFamily: FONT_BODY, fontSize: 'clamp(18px,2.4vw,22px)', lineHeight: 1.65,
+    color: colors.ink,
   },
+  founderSign: {
+    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 30, color: colors.teal, marginTop: 24,
+  },
+  founderRole: { fontFamily: FONT_BODY, fontSize: 14, color: colors.inkFaint, marginTop: 2 },
 }

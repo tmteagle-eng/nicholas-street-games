@@ -16,8 +16,8 @@ export default function App({ Component, pageProps }) {
         html { scroll-behavior: smooth; }
         body {
           font-family: 'Nunito', sans-serif;
-          background: #fff;
-          color: #1a1a1a;
+          background: #FBFAF5;
+          color: #1D2624;
           overflow-x: hidden;
           -webkit-font-smoothing: antialiased;
         }
