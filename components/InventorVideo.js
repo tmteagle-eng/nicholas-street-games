@@ -7,8 +7,9 @@ import { colors, FONT_DISPLAY, FONT_BODY, ui } from '../styles/tokens'
 //   'file'    → src is a URL/path to an .mp4 (e.g. '/videos/intro-video.mp4')
 //   'none'    → shows the "coming soon" placeholder
 export const INVENTOR_VIDEO = {
-  type: 'none',
-  src: '',
+  type: 'youtube',
+  src: 'MFEi2LWKQuI',
+  portrait: true, // vertical video (YouTube Short) → centered portrait player
   poster: '', // optional poster image URL for the 'file' type
 }
 // ─────────────────────────────────────────────────────────────────────────────
@@ -65,7 +66,7 @@ export default function InventorVideo({ background = colors.white }) {
           How Nicholas Street Games and Letter Me This! came to be — straight from the
           person who dreamed it up around the kitchen table.
         </p>
-        <div style={s.frame}>
+        <div style={INVENTOR_VIDEO.portrait ? s.framePortrait : s.frame}>
           <Player />
         </div>
       </div>
@@ -78,6 +79,18 @@ const s = {
     position: 'relative',
     width: '100%',
     aspectRatio: '16 / 9',
+    borderRadius: 22,
+    overflow: 'hidden',
+    border: `1.5px solid ${colors.hair}`,
+    boxShadow: '0 14px 40px rgba(20,40,35,0.12)',
+    background: colors.deepTeal,
+  },
+  framePortrait: {
+    position: 'relative',
+    width: '100%',
+    maxWidth: 360,
+    margin: '0 auto',
+    aspectRatio: '9 / 16',
     borderRadius: 22,
     overflow: 'hidden',
     border: `1.5px solid ${colors.hair}`,
