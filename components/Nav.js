@@ -3,10 +3,12 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { colors, FONT_DISPLAY, FONT_BODY, DICE_ROLLER_URL } from '../styles/tokens'
 import { useCart } from '../lib/cart'
+import { useUser } from '../lib/useUser'
 
 export default function Nav() {
   const router = useRouter()
   const { count } = useCart()
+  const { user } = useUser()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -63,6 +65,12 @@ export default function Nav() {
           >
             Try the Dice Roller
           </a>
+          <Link
+            href={user ? '/account' : '/login'}
+            style={{ ...s.link, color: isActive('/account') ? colors.tealInk : colors.inkSoft, background: isActive('/account') ? colors.mint : 'transparent' }}
+          >
+            {user ? 'Account' : 'Sign In'}
+          </Link>
           <Link href="/cart" style={s.cartBtn} aria-label={`Cart, ${count} item${count === 1 ? '' : 's'}`}>
             <span aria-hidden="true">🛒</span>
             {count > 0 && <span style={s.cartBadge}>{count}</span>}
@@ -98,6 +106,9 @@ export default function Nav() {
               {label}
             </Link>
           ))}
+          <Link href={user ? '/account' : '/login'} style={s.drawerLink} onClick={() => setMenuOpen(false)}>
+            {user ? '👤 Account' : '👤 Sign In'}
+          </Link>
           <Link href="/cart" style={s.drawerLink} onClick={() => setMenuOpen(false)}>
             🛒 Cart{count > 0 ? ` (${count})` : ''}
           </Link>

@@ -149,7 +149,7 @@ export default function LetterMeThis() {
       {/* ── 5 · MEET NICKIE ── */}
       <section style={{ ...s.section, background: colors.deepTeal }}>
         <div style={{ ...s.inner, maxWidth: 760, textAlign: 'center' }}>
-          <div style={s.nickieBadge}>✨ Coming Soon</div>
+          <div style={s.nickieBadge}>✨ Preview Available</div>
           <h2 style={{ ...ui.h2, color: '#fff' }}>Meet Nickie — your AI Game Master.</h2>
           <p style={{ ...ui.lead, color: '#B9DAD8', margin: '18px auto 0', maxWidth: '52ch' }}>
             Endless rule variations, brand-new modes, and mid-game debates — settled.
@@ -160,6 +160,11 @@ export default function LetterMeThis() {
             <span style={s.nickieChip}>Rule variations</span>
             <span style={s.nickieChip}>New modes on demand</span>
             <span style={s.nickieChip}>Debates, settled</span>
+          </div>
+          <div style={{ marginTop: 28 }}>
+            <Link href="/nickie" style={{ ...ui.btnPrimary, background: '#fff', color: colors.deepTeal }}>
+              Chat with Nickie — Preview
+            </Link>
           </div>
         </div>
       </section>
