@@ -1,9 +1,14 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
+import { colors, FONT_DISPLAY, FONT_BODY } from '../styles/tokens'
+import { useCart } from '../lib/cart'
+import { useUser } from '../lib/useUser'
 
 export default function Nav() {
   const router = useRouter()
+  const { count } = useCart()
+  const { user } = useUser()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -14,9 +19,10 @@ export default function Nav() {
   }, [])
 
   const links = [
-    { href: '/',          label: 'Home' },
-    { href: '/our-games', label: 'Our Games' },
-    { href: '/about',     label: 'About' },
+    { href: '/',                label: 'Home' },
+    { href: '/letter-me-this',  label: 'Letter Me This!' },
+    { href: '/shop',            label: 'Shop' },
+    { href: '/about',           label: 'About' },
   ]
 
   const isActive = (href) =>
@@ -26,8 +32,9 @@ export default function Nav() {
     <>
       <nav style={{
         ...s.nav,
-        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.15)' : 'none',
-        background: scrolled ? 'rgba(26,26,26,0.98)' : 'rgba(26,26,26,0.94)',
+        boxShadow: scrolled ? '0 4px 24px rgba(20,40,35,0.08)' : 'none',
+        background: scrolled ? 'rgba(251,250,245,0.98)' : 'rgba(251,250,245,0.92)',
+        borderBottom: `1.5px solid ${scrolled ? colors.hair : 'transparent'}`,
       }}>
         {/* Logo / brand */}
         <Link href="/" style={s.brand}>
@@ -36,32 +43,38 @@ export default function Nav() {
         </Link>
 
         {/* Desktop links */}
-        <div style={s.links}>
+        <div className="nav-links" style={s.links}>
           {links.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               style={{
                 ...s.link,
-                color: isActive(href) ? '#20B2AA' : '#ccc',
-                borderBottom: isActive(href) ? '2px solid #20B2AA' : '2px solid transparent',
+                color: isActive(href) ? colors.tealInk : colors.inkSoft,
+                background: isActive(href) ? colors.mint : 'transparent',
               }}
             >
               {label}
             </Link>
           ))}
-          <a
-            href="https://tmteagle-eng.github.io/letter-me-this/"
-            style={s.ctaBtn}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link href="/nickie" style={s.nickieBtn}>
+            <span aria-hidden="true">✨</span> Chat with Nickie
+          </Link>
+          <Link
+            href={user ? '/account' : '/login'}
+            style={{ ...s.link, color: isActive('/account') ? colors.tealInk : colors.inkSoft, background: isActive('/account') ? colors.mint : 'transparent' }}
           >
-            Try the Dice Roller
-          </a>
+            {user ? 'Account' : 'Sign In'}
+          </Link>
+          <Link href="/cart" style={s.cartBtn} aria-label={`Cart, ${count} item${count === 1 ? '' : 's'}`}>
+            <span aria-hidden="true">🛒</span>
+            {count > 0 && <span style={s.cartBadge}>{count}</span>}
+          </Link>
         </div>
 
         {/* Mobile hamburger */}
         <button
+          className="hamburger"
           style={s.hamburger}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
@@ -81,33 +94,32 @@ export default function Nav() {
               href={href}
               style={{
                 ...s.drawerLink,
-                color: isActive(href) ? '#20B2AA' : '#fff',
+                color: isActive(href) ? colors.tealInk : colors.ink,
               }}
               onClick={() => setMenuOpen(false)}
             >
               {label}
             </Link>
           ))}
-          <a
-            href="https://tmteagle-eng.github.io/letter-me-this/"
-            style={s.drawerCta}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setMenuOpen(false)}
-          >
-            Try the Dice Roller
-          </a>
+          <Link href={user ? '/account' : '/login'} style={s.drawerLink} onClick={() => setMenuOpen(false)}>
+            {user ? '👤 Account' : '👤 Sign In'}
+          </Link>
+          <Link href="/cart" style={s.drawerLink} onClick={() => setMenuOpen(false)}>
+            🛒 Cart{count > 0 ? ` (${count})` : ''}
+          </Link>
+          <Link href="/nickie" style={{ ...s.drawerCta, background: colors.teal }} onClick={() => setMenuOpen(false)}>
+            ✨ Chat with Nickie
+          </Link>
         </div>
       )}
 
       <style>{`
-        nav a { transition: color 0.2s, border-color 0.2s; }
-        nav a:hover { color: #20B2AA !important; }
-        @media (max-width: 768px) {
+        nav a { transition: color 0.2s, background 0.2s; }
+        @media (max-width: 1180px) {
           .nav-links { display: none !important; }
           .hamburger { display: flex !important; }
         }
-        @media (min-width: 769px) {
+        @media (min-width: 1181px) {
           .hamburger { display: none !important; }
         }
       `}</style>
@@ -119,74 +131,91 @@ const s = {
   nav: {
     position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
     backdropFilter: 'blur(10px)',
-    padding: '0 40px',
+    padding: '0 32px',
     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
     height: 64,
-    borderBottom: '2px solid #E85D3D',
-    transition: 'background 0.3s, box-shadow 0.3s',
+    transition: 'background 0.3s, box-shadow 0.3s, border-color 0.3s',
   },
   brand: {
     display: 'flex', alignItems: 'center', gap: 10,
     textDecoration: 'none',
   },
   navLogo: {
-    height: 48, width: 'auto',
+    height: 46, width: 'auto',
   },
   brandName: {
-    fontFamily: "'Bebas Neue', sans-serif",
-    fontSize: 18, letterSpacing: 3,
-    color: '#fff',
+    fontFamily: FONT_DISPLAY,
+    fontWeight: 800, fontSize: 19, letterSpacing: '0.01em',
+    color: colors.ink,
   },
   links: {
-    display: 'flex', alignItems: 'center', gap: 4,
-    className: 'nav-links',
+    display: 'flex', alignItems: 'center', gap: 6,
   },
   link: {
-    fontFamily: "'Nunito', sans-serif",
-    fontSize: 13, fontWeight: 700, letterSpacing: '0.5px',
-    textDecoration: 'none', padding: '4px 12px',
-    paddingBottom: 2,
-    transition: 'color 0.2s, border-color 0.2s',
+    fontFamily: FONT_BODY,
+    fontSize: 14, fontWeight: 700, letterSpacing: '0.01em',
+    textDecoration: 'none', padding: '8px 14px',
+    borderRadius: 999,
+  },
+  nickieBtn: {
+    marginLeft: 8,
+    fontFamily: FONT_DISPLAY,
+    fontWeight: 700, fontSize: 15, letterSpacing: '0.02em',
+    color: '#fff', background: colors.teal,
+    padding: '10px 18px', borderRadius: 999,
+    textDecoration: 'none', whiteSpace: 'nowrap',
+    display: 'inline-flex', alignItems: 'center', gap: 6,
   },
   ctaBtn: {
-    marginLeft: 12,
-    fontFamily: "'Bebas Neue', sans-serif",
-    fontSize: 14, letterSpacing: 2,
-    color: '#fff', background: '#E85D3D',
-    padding: '8px 18px', borderRadius: 3,
+    fontFamily: FONT_DISPLAY,
+    fontWeight: 700, fontSize: 15, letterSpacing: '0.02em',
+    color: '#fff', background: colors.coral,
+    padding: '10px 18px', borderRadius: 999,
     textDecoration: 'none', whiteSpace: 'nowrap',
+  },
+  cartBtn: {
+    position: 'relative', marginLeft: 4, textDecoration: 'none',
+    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+    width: 40, height: 40, borderRadius: 999, fontSize: 18,
+  },
+  cartBadge: {
+    position: 'absolute', top: 0, right: 0,
+    minWidth: 18, height: 18, padding: '0 5px', borderRadius: 999,
+    background: colors.coral, color: '#fff',
+    fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 11,
+    display: 'grid', placeItems: 'center', lineHeight: 1,
   },
   hamburger: {
     display: 'none', flexDirection: 'column', gap: 5,
     background: 'none', border: 'none', cursor: 'pointer', padding: 4,
-    className: 'hamburger',
   },
   bar: {
-    display: 'block', width: 24, height: 2,
-    background: '#fff', borderRadius: 2,
+    display: 'block', width: 24, height: 2.5,
+    background: colors.ink, borderRadius: 2,
     transition: 'transform 0.2s, opacity 0.2s',
   },
   drawer: {
     position: 'fixed', top: 64, left: 0, right: 0, zIndex: 99,
-    background: '#1a1a1a',
-    borderBottom: '3px solid #E85D3D',
+    background: colors.ground,
+    borderBottom: `1.5px solid ${colors.hair}`,
+    boxShadow: '0 12px 24px rgba(20,40,35,0.08)',
     display: 'flex', flexDirection: 'column',
-    padding: '16px 24px 24px',
-    gap: 4,
+    padding: '12px 24px 22px',
+    gap: 2,
   },
   drawerLink: {
-    fontFamily: "'Nunito', sans-serif",
-    fontSize: 16, fontWeight: 700,
+    fontFamily: FONT_BODY,
+    fontSize: 17, fontWeight: 700,
     textDecoration: 'none',
-    padding: '12px 0',
-    borderBottom: '1px solid rgba(255,255,255,0.06)',
+    padding: '13px 4px',
+    borderBottom: `1px solid ${colors.hair}`,
   },
   drawerCta: {
-    marginTop: 12,
-    fontFamily: "'Bebas Neue', sans-serif",
-    fontSize: 16, letterSpacing: 2,
-    color: '#fff', background: '#E85D3D',
-    padding: '12px 20px', borderRadius: 3,
+    marginTop: 14,
+    fontFamily: FONT_DISPLAY,
+    fontWeight: 700, fontSize: 16, letterSpacing: '0.02em',
+    color: '#fff', background: colors.coral,
+    padding: '13px 20px', borderRadius: 999,
     textDecoration: 'none', textAlign: 'center',
   },
 }

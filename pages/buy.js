@@ -1,5 +1,22 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import { colors, FONT_DISPLAY, FONT_BODY, ui, CONTACT_EMAIL } from '../styles/tokens'
+
+const INSIDE = [
+  { icon: '🎲', item: '20-sided alphabet die' },
+  { icon: '🎲', item: '6-sided number die' },
+  { icon: '🥤', item: 'Dice canister' },
+  { icon: '📝', item: 'Writing pad (25 sheets)' },
+  { icon: '✏️', item: '6 pencils + sharpener' },
+  { icon: '📄', item: 'Instruction sheet' },
+]
+
+const SPECS = [
+  ['Players',   '3 – 8'],
+  ['Ages',      '14+'],
+  ['Play Time', '20+ min'],
+  ['Timer',     '90 seconds'],
+]
 
 export default function Buy() {
   return (
@@ -11,38 +28,25 @@ export default function Buy() {
 
       {/* ── HERO ── */}
       <section style={s.hero}>
-        <p style={s.eyebrow}>Get the Game</p>
+        <p style={ui.eyebrow}>Get the Game</p>
         <h1 style={s.title}>Letter Me This!</h1>
         <h2 style={s.comingSoon}>Coming Soon</h2>
-        <p style={s.sub}>
-          We&apos;re putting the finishing touches on everything.
-          Sign up below to be the first to know when it&apos;s available.
+        <p style={{ ...ui.lead, margin: '0 auto 32px', textAlign: 'center' }}>
+          We’re putting the finishing touches on everything. Drop us a line and we’ll
+          let you know the moment it’s available.
         </p>
-
-        <a href="mailto:tim@nicholasstreetgames.com" style={s.notifyBtn}>
-          Get Notified
-        </a>
-
-        <p style={s.note}>
-          Drop us a line and we&apos;ll let you know the moment it&apos;s ready.
-        </p>
+        <a href={`mailto:${CONTACT_EMAIL}`} style={ui.btnPrimary}>Get Notified</a>
       </section>
 
       <div className="color-bar" />
 
       {/* ── WHAT'S IN THE BOX ── */}
-      <section style={{padding:'96px 24px', background:'#fff'}}>
+      <section style={{ ...s.section, background: colors.white }}>
         <div style={s.inner}>
-          <p style={s.labelTeal}>What&apos;s Inside</p>
-          <h2 style={s.secTitle}>Everything You Need.<br />Nothing You Don&apos;t.</h2>
+          <p style={ui.eyebrow}>What&apos;s Inside</p>
+          <h2 style={ui.h2}>Everything you need. Nothing you don’t.</h2>
           <div style={s.contentsGrid}>
-            {[
-              { icon:'🎲', item:'One Custom LMK Alphabet Die' },
-              { icon:'🎲', item:'One Numeric Die' },
-              { icon:'🧊', item:'Rolling Canister' },
-              { icon:'📝', item:'Scoring Pad' },
-              { icon:'📄', item:'Instructions' },
-            ].map(({icon, item}) => (
+            {INSIDE.map(({ icon, item }) => (
               <div key={item} style={s.contentCard}>
                 <div style={s.contentIcon}>{icon}</div>
                 <div style={s.contentItem}>{item}</div>
@@ -52,34 +56,21 @@ export default function Buy() {
         </div>
       </section>
 
-      <div className="color-bar" />
-
       {/* ── GAME SPECS ── */}
-      <section style={{background:'#1a1a1a', padding:'80px 24px'}}>
-        <div style={{...s.inner, maxWidth:640}}>
-          <p style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:11, letterSpacing:5, color:'#F5C518', marginBottom:12, textAlign:'center'}}>
-            Game Details
-          </p>
-          <h2 style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:'clamp(28px,4vw,44px)', color:'#fff', letterSpacing:2, textAlign:'center', marginBottom:40}}>
-            At a Glance
-          </h2>
+      <section style={{ ...s.section, background: colors.deepTeal }}>
+        <div style={{ ...s.inner, maxWidth: 620 }}>
+          <p style={{ ...ui.eyebrow, color: colors.yellow, textAlign: 'center' }}>Game Details</p>
+          <h2 style={{ ...ui.h2, color: '#fff', textAlign: 'center', marginBottom: 32 }}>At a Glance</h2>
           <div style={s.specsGrid}>
-            {[
-              ['Players',    '3 – 10'],
-              ['Ages',       '12+'],
-              ['Play Time',  '15 – 30 min'],
-              ['Setup',      'Under 2 min'],
-            ].map(([label, val]) => (
+            {SPECS.map(([label, val]) => (
               <div key={label} style={s.specRow}>
                 <span style={s.specLabel}>{label}</span>
                 <span style={s.specVal}>{val}</span>
               </div>
             ))}
           </div>
-          <div style={{textAlign:'center', marginTop:40}}>
-            <Link href="/our-games" style={s.notifyBtn}>
-              Learn More
-            </Link>
+          <div style={{ textAlign: 'center', marginTop: 36 }}>
+            <Link href="/letter-me-this" style={s.lightBtn}>Learn More</Link>
           </div>
         </div>
       </section>
@@ -89,65 +80,41 @@ export default function Buy() {
 
 const s = {
   hero: {
-    background:'#1a1a1a', padding:'80px 24px 72px',
-    textAlign:'center', borderBottom:'3px solid #E85D3D',
-  },
-  eyebrow: {
-    fontFamily:"'Bebas Neue',sans-serif", fontSize:11,
-    letterSpacing:5, color:'#20B2AA', marginBottom:12,
+    padding: '84px 24px 72px', textAlign: 'center',
+    background: `radial-gradient(60% 80% at 50% 0%, ${colors.yellow}26 0%, transparent 60%), ${colors.ground}`,
   },
   title: {
-    fontFamily:"'Bebas Neue',sans-serif",
-    fontSize:'clamp(48px,8vw,80px)',
-    color:'#fff', letterSpacing:3, lineHeight:1, marginBottom:12,
+    fontFamily: FONT_DISPLAY, fontWeight: 800,
+    fontSize: 'clamp(44px,8vw,76px)', color: colors.ink, letterSpacing: '-0.01em', lineHeight: 1, marginBottom: 10,
   },
   comingSoon: {
-    fontFamily:"'Bebas Neue',sans-serif", fontSize:'clamp(28px,4vw,44px)',
-    color:'#F5C518', letterSpacing:2, marginBottom:16,
+    fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 'clamp(26px,4vw,42px)',
+    color: colors.coral, marginBottom: 18,
   },
-  sub: { fontSize:16, color:'#888', marginBottom:36, letterSpacing:'0.5px', maxWidth:480, margin:'0 auto 36px', lineHeight:1.7 },
-  notifyBtn: {
-    fontFamily:"'Bebas Neue',sans-serif", fontSize:20, letterSpacing:2,
-    background:'#E85D3D', color:'#fff',
-    padding:'16px 48px', borderRadius:4, textDecoration:'none',
-    boxShadow:'0 4px 16px rgba(0,0,0,0.3)', display:'inline-block',
-  },
-  note: { fontSize:12, color:'#555', letterSpacing:'0.5px', marginTop:16 },
-  inner: { maxWidth:900, margin:'0 auto' },
-  labelTeal: {
-    fontFamily:"'Bebas Neue',sans-serif", fontSize:11,
-    letterSpacing:5, color:'#20B2AA', marginBottom:12, textTransform:'uppercase',
-  },
-  secTitle: {
-    fontFamily:"'Bebas Neue',sans-serif",
-    fontSize:'clamp(30px,4vw,48px)',
-    lineHeight:1.05, letterSpacing:2, marginBottom:48,
-  },
+  section: { padding: '84px 24px' },
+  inner: { maxWidth: 900, margin: '0 auto' },
   contentsGrid: {
-    display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',
-    gap:20,
+    marginTop: 40,
+    display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 16,
   },
   contentCard: {
-    background:'#f8f7f3', borderRadius:8, padding:'28px 20px',
-    textAlign:'center', borderTop:'3px solid #20B2AA',
+    background: colors.mint, borderRadius: 16, padding: '28px 20px',
+    textAlign: 'center', borderTop: `3px solid ${colors.teal}`,
   },
-  contentIcon: { fontSize:28, marginBottom:12 },
-  contentItem: {
-    fontFamily:"'Bebas Neue',sans-serif", fontSize:15, letterSpacing:1,
-    color:'#1a1a1a', marginBottom:8,
-  },
-  contentDesc: { fontSize:12, color:'#888', lineHeight:1.6 },
+  contentIcon: { fontSize: 30, marginBottom: 12 },
+  contentItem: { fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16, color: colors.ink },
   specsGrid: {
-    border:'1px solid rgba(255,255,255,0.08)',
-    borderRadius:8, overflow:'hidden',
+    background: '#ffffff10', border: '1px solid #ffffff1f', borderRadius: 14, overflow: 'hidden',
   },
   specRow: {
-    display:'flex', justifyContent:'space-between',
-    padding:'16px 24px',
-    borderBottom:'1px solid rgba(255,255,255,0.06)',
+    display: 'flex', justifyContent: 'space-between', padding: '16px 24px',
+    borderBottom: '1px solid #ffffff14',
   },
-  specLabel: {
-    fontFamily:"'Bebas Neue',sans-serif", fontSize:14, letterSpacing:2, color:'#888',
+  specLabel: { fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16, color: '#B9DAD8' },
+  specVal: { fontFamily: FONT_BODY, fontSize: 16, fontWeight: 800, color: '#fff' },
+  lightBtn: {
+    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16,
+    background: '#fff', color: colors.deepTeal, padding: '13px 28px',
+    borderRadius: 999, textDecoration: 'none', display: 'inline-block',
   },
-  specVal: { fontSize:15, fontWeight:800, color:'#fff' },
 }
