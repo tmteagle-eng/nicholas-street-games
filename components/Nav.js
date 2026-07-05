@@ -2,9 +2,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { colors, FONT_DISPLAY, FONT_BODY, DICE_ROLLER_URL } from '../styles/tokens'
+import { useCart } from '../lib/cart'
 
 export default function Nav() {
   const router = useRouter()
+  const { count } = useCart()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -17,6 +19,7 @@ export default function Nav() {
   const links = [
     { href: '/',                label: 'Home' },
     { href: '/letter-me-this',  label: 'Letter Me This!' },
+    { href: '/shop',            label: 'Shop' },
     { href: '/about',           label: 'About' },
   ]
 
@@ -60,6 +63,10 @@ export default function Nav() {
           >
             Try the Dice Roller
           </a>
+          <Link href="/cart" style={s.cartBtn} aria-label={`Cart, ${count} item${count === 1 ? '' : 's'}`}>
+            <span aria-hidden="true">🛒</span>
+            {count > 0 && <span style={s.cartBadge}>{count}</span>}
+          </Link>
         </div>
 
         {/* Mobile hamburger */}
@@ -91,6 +98,9 @@ export default function Nav() {
               {label}
             </Link>
           ))}
+          <Link href="/cart" style={s.drawerLink} onClick={() => setMenuOpen(false)}>
+            🛒 Cart{count > 0 ? ` (${count})` : ''}
+          </Link>
           <a
             href={DICE_ROLLER_URL}
             style={s.drawerCta}
@@ -154,6 +164,18 @@ const s = {
     color: '#fff', background: colors.coral,
     padding: '10px 20px', borderRadius: 999,
     textDecoration: 'none', whiteSpace: 'nowrap',
+  },
+  cartBtn: {
+    position: 'relative', marginLeft: 4, textDecoration: 'none',
+    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+    width: 40, height: 40, borderRadius: 999, fontSize: 18,
+  },
+  cartBadge: {
+    position: 'absolute', top: 0, right: 0,
+    minWidth: 18, height: 18, padding: '0 5px', borderRadius: 999,
+    background: colors.coral, color: '#fff',
+    fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 11,
+    display: 'grid', placeItems: 'center', lineHeight: 1,
   },
   hamburger: {
     display: 'none', flexDirection: 'column', gap: 5,
