@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import { colors, FONT_DISPLAY, FONT_BODY, DICE_ROLLER_URL } from '../styles/tokens'
+import { colors, FONT_DISPLAY, FONT_BODY } from '../styles/tokens'
 import { useCart } from '../lib/cart'
 import { useUser } from '../lib/useUser'
 
@@ -60,14 +60,6 @@ export default function Nav() {
           <Link href="/nickie" style={s.nickieBtn}>
             <span aria-hidden="true">✨</span> Chat with Nickie
           </Link>
-          <a
-            href={DICE_ROLLER_URL}
-            style={s.ctaBtn}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dice Roller
-          </a>
           <Link
             href={user ? '/account' : '/login'}
             style={{ ...s.link, color: isActive('/account') ? colors.tealInk : colors.inkSoft, background: isActive('/account') ? colors.mint : 'transparent' }}
@@ -118,15 +110,6 @@ export default function Nav() {
           <Link href="/nickie" style={{ ...s.drawerCta, background: colors.teal }} onClick={() => setMenuOpen(false)}>
             ✨ Chat with Nickie
           </Link>
-          <a
-            href={DICE_ROLLER_URL}
-            style={s.drawerCta}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setMenuOpen(false)}
-          >
-            Try the Dice Roller
-          </a>
         </div>
       )}
 

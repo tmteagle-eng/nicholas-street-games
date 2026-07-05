@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { colors, FONT_DISPLAY, FONT_BODY, ui, LOGO_NSG, DICE_ROLLER_URL } from '../styles/tokens'
+import { colors, FONT_DISPLAY, FONT_BODY, ui, LOGO_NSG } from '../styles/tokens'
 
 export default function About() {
   return (
@@ -102,7 +102,6 @@ export default function About() {
         <h2 style={ui.h2}>Meet the Game.</h2>
         <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginTop: 30 }}>
           <Link href="/letter-me-this" style={ui.btnPrimary}>Explore Letter Me This!</Link>
-          <a href={DICE_ROLLER_URL} style={ui.btnGhost} target="_blank" rel="noopener noreferrer">Try the Dice Roller</a>
         </div>
       </section>
     </>

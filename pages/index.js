@@ -3,7 +3,7 @@ import Link from 'next/link'
 import InventorVideo from '../components/InventorVideo'
 import {
   colors, FONT_DISPLAY, FONT_BODY, ui, SLOGAN,
-  LOGO_LMT, DICE_ROLLER_URL, INSTAGRAM_URL, TIKTOK_URL,
+  LOGO_LMT, INSTAGRAM_URL, TIKTOK_URL,
 } from '../styles/tokens'
 
 const STEPS = [
@@ -45,7 +45,6 @@ export default function Home() {
           </div>
           <div className="fade-up-4" style={s.heroBtns}>
             <Link href="/letter-me-this" style={ui.btnPrimary}>Meet Letter Me This!</Link>
-            <a href={DICE_ROLLER_URL} style={ui.btnGhost} target="_blank" rel="noopener noreferrer">Try the Dice Roller</a>
           </div>
         </div>
       </section>
@@ -68,7 +67,6 @@ export default function Home() {
             </p>
             <div style={{ display: 'flex', gap: 12, marginTop: 30, flexWrap: 'wrap' }}>
               <Link href="/letter-me-this" style={ui.btnPrimary}>Learn More</Link>
-              <a href={DICE_ROLLER_URL} style={ui.btnGhost} target="_blank" rel="noopener noreferrer">Try the Dice Roller</a>
             </div>
           </div>
           <div className="spot-logo" style={s.spotLogo}>
