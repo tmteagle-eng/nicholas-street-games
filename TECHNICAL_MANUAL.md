@@ -16,8 +16,10 @@ Marketing website for Nicholas Street Games, home of the board game **Letter Me 
 ### Vercel
 - **Workspace/Team:** nicholas-street-games (its own Vercel workspace, separate from other projects)
 - **Project:** nicholas-street-games
-- **Project ID:** prj_VAC8seTCptOntreKm4LTewXlD1BH
-- **Org/Team ID:** team_5hTfGHmr8MLt1hcg5xuyYGVm
+- **Project ID:** prj_VAC8seTCptOntreKm4LTewXlD1BH (unchanged by the workspace move)
+- **Org/Team ID:** TODO — project moved to the new "nicholas-street-games" workspace;
+  old Grounded ID (team_5hTfGHmr8MLt1hcg5xuyYGVm) no longer applies. Find the new value in
+  Vercel → Nicholas Street Games → Settings → General → "Team ID".
 - **Framework:** Next.js (auto-detected)
 - **Build command:** `next build`
 - **Output:** Static pages + serverless API functions
