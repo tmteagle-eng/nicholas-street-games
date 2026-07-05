@@ -57,13 +57,16 @@ export default function Nav() {
               {label}
             </Link>
           ))}
+          <Link href="/nickie" style={s.nickieBtn}>
+            <span aria-hidden="true">✨</span> Chat with Nickie
+          </Link>
           <a
             href={DICE_ROLLER_URL}
             style={s.ctaBtn}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Try the Dice Roller
+            Dice Roller
           </a>
           <Link
             href={user ? '/account' : '/login'}
@@ -112,6 +115,9 @@ export default function Nav() {
           <Link href="/cart" style={s.drawerLink} onClick={() => setMenuOpen(false)}>
             🛒 Cart{count > 0 ? ` (${count})` : ''}
           </Link>
+          <Link href="/nickie" style={{ ...s.drawerCta, background: colors.teal }} onClick={() => setMenuOpen(false)}>
+            ✨ Chat with Nickie
+          </Link>
           <a
             href={DICE_ROLLER_URL}
             style={s.drawerCta}
@@ -126,11 +132,11 @@ export default function Nav() {
 
       <style>{`
         nav a { transition: color 0.2s, background 0.2s; }
-        @media (max-width: 820px) {
+        @media (max-width: 1180px) {
           .nav-links { display: none !important; }
           .hamburger { display: flex !important; }
         }
-        @media (min-width: 821px) {
+        @media (min-width: 1181px) {
           .hamburger { display: none !important; }
         }
       `}</style>
@@ -168,12 +174,20 @@ const s = {
     textDecoration: 'none', padding: '8px 14px',
     borderRadius: 999,
   },
-  ctaBtn: {
+  nickieBtn: {
     marginLeft: 8,
     fontFamily: FONT_DISPLAY,
     fontWeight: 700, fontSize: 15, letterSpacing: '0.02em',
+    color: '#fff', background: colors.teal,
+    padding: '10px 18px', borderRadius: 999,
+    textDecoration: 'none', whiteSpace: 'nowrap',
+    display: 'inline-flex', alignItems: 'center', gap: 6,
+  },
+  ctaBtn: {
+    fontFamily: FONT_DISPLAY,
+    fontWeight: 700, fontSize: 15, letterSpacing: '0.02em',
     color: '#fff', background: colors.coral,
-    padding: '10px 20px', borderRadius: 999,
+    padding: '10px 18px', borderRadius: 999,
     textDecoration: 'none', whiteSpace: 'nowrap',
   },
   cartBtn: {
