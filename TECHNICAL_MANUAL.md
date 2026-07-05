@@ -14,7 +14,7 @@ Marketing website for Nicholas Street Games, home of the board game **Letter Me 
 ## Hosting & Infrastructure
 
 ### Vercel
-- **Team:** grounded1
+- **Workspace/Team:** nicholas-street-games (its own Vercel workspace, separate from other projects)
 - **Project:** nicholas-street-games
 - **Project ID:** prj_VAC8seTCptOntreKm4LTewXlD1BH
 - **Org/Team ID:** team_5hTfGHmr8MLt1hcg5xuyYGVm
@@ -543,7 +543,7 @@ If you ever need to set up the Vercel project from scratch:
 
 ```bash
 # Create project
-vercel project add nicholas-street-games --scope grounded1
+vercel project add nicholas-street-games --scope nicholas-street-games
 
 # Get project ID via API
 curl -s -H "Authorization: Bearer $TOKEN" \
@@ -588,14 +588,15 @@ In GoDaddy → Domain → DNS → Nameservers → Custom:
 ## Troubleshooting
 
 ### Site not updating after deploy
-- Vercel CLI deploy is required (`vercel --prod`) — `git push` alone does not trigger deployment
+- Git is now connected: pushing to `master` auto-deploys production (no manual CLI needed).
+  Branches/PRs get preview URLs. Manual `vercel --prod` still works as a fallback.
 - Clear browser cache or use incognito window
 
 ### Vercel CLI scope error
-- Add `--scope grounded1` to commands, or run `vercel link --scope grounded1` first
+- Add `--scope nicholas-street-games` to commands, or run `vercel link --scope nicholas-street-games` first
 
 ### Email not working after DNS change
-- Verify MX record exists: `vercel dns ls nicholasstreetgames.com --scope grounded1`
+- Verify MX record exists: `vercel dns ls nicholasstreetgames.com --scope nicholas-street-games`
 - MX should point to `nicholasstreetgames-com.mail.protection.outlook.com`
 - To revert: change GoDaddy nameservers back to `ns37.domaincontrol.com` / `ns38.domaincontrol.com`
 

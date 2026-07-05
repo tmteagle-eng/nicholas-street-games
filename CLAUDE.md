@@ -11,7 +11,7 @@ Website for Nicholas Street Games — home of the Letter Me This! board game. In
 - Next.js 14 (Pages Router — NOT App Router)
 - Upstash Redis (data storage via LPUSH/LRANGE for RSVPs, releases, cancellations)
 - Resend (transactional email from rsvp@nicholasstreetgames.com)
-- Hosted on Vercel (team: grounded1)
+- Hosted on Vercel (own workspace: nicholas-street-games — separate from other projects)
 - Domain: nicholasstreetgames.com (DNS on Vercel, email via Microsoft 365)
 
 ## Pages
@@ -63,8 +63,10 @@ All data stored in Upstash Redis as JSON-stringified entries in lists:
 - Instagram: @lettermethisgame · TikTok: @lettermethis1
 
 ## Deploy
+The GitHub repo is connected to Vercel, so **pushing to `master` auto-deploys production**
+and every branch/PR gets a preview URL. Manual deploy (if ever needed):
 ```bash
-vercel --prod --scope grounded1
+vercel --prod --scope nicholas-street-games
 ```
 
 ## Owner
