@@ -7,7 +7,7 @@
 
 import {
   sessionFromReq, getUser, incrementUserNickie, userLimit,
-  unsign, sign, buildCookie, NICKIE_COOKIE, LIMITS,
+  unsign, sign, buildCookie, NICKIE_COOKIE, LIMITS, redis,
 } from '../../lib/auth'
 
 const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages'
@@ -97,6 +97,16 @@ async function nickieAnswer(question) {
   }
 }
 
+// Save each Q&A to Redis for the /nickie-log admin view. Never throws — a
+// logging failure must not break Nickie's reply.
+async function logQuestion(entry) {
+  try {
+    await redis().lpush('nickie_questions', JSON.stringify({ ...entry, at: new Date().toISOString() }))
+  } catch (error) {
+    console.error('[nickie] log error:', error.message)
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST')
@@ -132,8 +142,10 @@ export default async function handler(req, res) {
       console.error('[nickie] increment error:', JSON.stringify(error))
       return res.status(500).json({ error: 'Something went wrong. Try again.' })
     }
+    const answer = await nickieAnswer(question)
+    await logQuestion({ question, answer, authed: true, email: session.email })
     return res.status(200).json({
-      answer: await nickieAnswer(question),
+      answer,
       usage: { used: user.nickieUsed, limit, remaining: Math.max(0, limit - user.nickieUsed) },
       authed: true,
     })
@@ -154,8 +166,10 @@ export default async function handler(req, res) {
   const nextCount = used + 1
   res.setHeader('Set-Cookie', buildCookie(NICKIE_COOKIE, sign({ n: nextCount }), { maxAge: 60 * 60 * 24 * 365 }))
 
+  const answer = await nickieAnswer(question)
+  await logQuestion({ question, answer, authed: false })
   return res.status(200).json({
-    answer: await nickieAnswer(question),
+    answer,
     usage: { used: nextCount, limit: LIMITS.anon, remaining: Math.max(0, LIMITS.anon - nextCount) },
     authed: false,
   })
