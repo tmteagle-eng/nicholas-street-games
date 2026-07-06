@@ -1,15 +1,34 @@
 // Nickie — AI Game Master endpoint.
 //
-// Handles identity + usage metering and returns an answer. The actual LLM call
-// is STUBBED (canned game-master responses) until an AI provider is wired.
-//
-// To go live: replace `nickieAnswer()` with a call to your LLM of choice,
-// keeping the metering/gating logic above it intact.
+// Handles identity + usage metering, then answers via the Claude API
+// (raw fetch, no SDK — keeps the project dependency-free). If ANTHROPIC_API_KEY
+// is unset or the API call fails, it falls back to a canned game-master tip so
+// the feature degrades gracefully instead of erroring.
 
 import {
   sessionFromReq, getUser, incrementUserNickie, userLimit,
   unsign, sign, buildCookie, NICKIE_COOKIE, LIMITS,
 } from '../../lib/auth'
+
+const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages'
+const MODEL = process.env.NICKIE_MODEL || 'claude-opus-4-8'
+const TIMEOUT_MS = 20000
+
+// Everything Nickie knows about the game. Keep in sync with pages/letter-me-this.js.
+const SYSTEM_PROMPT = `You are Nickie, the AI Game Master and mascot for the party game "Letter Me This!" by Nicholas Street Games. You help players and hosts with rules, strategy, house rules, and hosting ideas.
+
+VOICE: warm, playful, quick-witted party host. Keep it short — usually 1-3 sentences. Plain text only (your replies appear in a chat bubble): no markdown headings, no bullet lists unless truly needed. Reply with only your answer to the player — no preamble and no commentary about your own reasoning.
+
+THE GAME (facts — never contradict these):
+- Tagline: "Roll. Write. Reveal. Laugh." It's the party game where your friends define you.
+- 3-8 players, ages 14+, about 20+ minutes.
+- Each round one player is "The Subject."
+- How to play: (1) Someone is The Subject. (2) The player to their left rolls both dice — the 20-sided alphabet die gives the LETTER, the 6-sided number die gives HOW MANY words to write. (3) Everyone EXCEPT The Subject has 90 seconds to write that many words starting with that letter that describe The Subject; only your first words count. (4) Read words aloud — The Subject approves real words for 1 point each. (5) If two or more players wrote the same word, nobody scores it. Then the next player becomes The Subject. Most points wins, or just play for laughs.
+- Approved word = a real dictionary word AND one that truly describes The Subject (even if unflattering). Minor misspellings still count — it's a party game, not a spelling bee. Different words score separately, so "loving" and "lovable" both count.
+- In the box: a 20-sided alphabet die, a 6-sided number die, a dice canister, a writing pad (25 sheets), 6 pencils, a pencil sharpener, and an instruction sheet. There's also a companion Dice Roller web app.
+- Official game modes: Challenge Mode (30-second timer), Drinking Game Mode (matching words = take a drink), Double Score Rounds (roll a six to make it a double-point round), Birthday Bash Mode (set number of rounds for the guest of honor), Savage Mode (bonus points for brutally accurate or hilarious words), and Theme Words (pick a theme — holiday, event, product launch — and describe it).
+
+BOUNDARIES: Stay on Letter Me This, word/party games, and hosting. If asked something unrelated, cheerfully redirect to the game. If you're unsure of an official ruling, say it's a house-rule call and suggest a fair option — don't invent official rules. You can suggest fun new house rules and modes on request.`
 
 const TIPS = [
   'Remember: only unique approved words score. If two players write the same word, it cancels out — so think about what everyone else will obviously pick, and avoid it.',
@@ -20,9 +39,58 @@ const TIPS = [
   'Savage Mode is a crowd favorite — award bonus points for the most brutally accurate word of the round.',
 ]
 
-function nickieAnswer(question) {
+function fallbackTip() {
   const tip = TIPS[Math.floor(Math.random() * TIPS.length)]
-  return `Great question! (Nickie's full AI brain is still warming up — here's a game-master tip in the meantime.) ${tip}`
+  return `Great question! (My full AI brain is catching its breath — here's a game-master tip in the meantime.) ${tip}`
+}
+
+async function callClaude(question) {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
+  try {
+    const res = await fetch(ANTHROPIC_API_URL, {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 600,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: question }],
+      }),
+    })
+    if (!res.ok) {
+      const body = await res.text().catch(() => '')
+      throw new Error(`Anthropic ${res.status}: ${body.slice(0, 300)}`)
+    }
+    const data = await res.json()
+    const text = (data.content || [])
+      .filter((b) => b.type === 'text')
+      .map((b) => b.text)
+      .join('')
+      .trim()
+    if (!text) throw new Error('empty completion')
+    return text
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
+async function nickieAnswer(question) {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.warn('[nickie] ANTHROPIC_API_KEY not set — serving fallback tip.')
+    return fallbackTip()
+  }
+  try {
+    return await callClaude(question)
+  } catch (error) {
+    console.error('[nickie] LLM error:', error.message)
+    return fallbackTip()
+  }
 }
 
 export default async function handler(req, res) {
@@ -61,7 +129,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Something went wrong. Try again.' })
     }
     return res.status(200).json({
-      answer: nickieAnswer(question),
+      answer: await nickieAnswer(question),
       usage: { used: user.nickieUsed, limit, remaining: Math.max(0, limit - user.nickieUsed) },
       authed: true,
     })
@@ -83,7 +151,7 @@ export default async function handler(req, res) {
   res.setHeader('Set-Cookie', buildCookie(NICKIE_COOKIE, sign({ n: nextCount }), { maxAge: 60 * 60 * 24 * 365 }))
 
   return res.status(200).json({
-    answer: nickieAnswer(question),
+    answer: await nickieAnswer(question),
     usage: { used: nextCount, limit: LIMITS.anon, remaining: Math.max(0, LIMITS.anon - nextCount) },
     authed: false,
   })

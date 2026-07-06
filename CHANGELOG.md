@@ -106,12 +106,21 @@ These are not visible in code, recorded here for the project history.
     random string (Production + Preview), then redeploy for it to take effect.
   - `RESEND_API_KEY`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`,
     `ADMIN_PASSWORD` — existing; still required.
+  - `ANTHROPIC_API_KEY` — **NEW** for Nickie's real AI (see below). Nickie falls
+    back to canned tips if it's unset, so it's not strictly required to deploy.
+
+## 2026-07-05 (later) — Nickie's real AI
+
+- `pages/api/nickie.js` now calls the **Claude API** (`claude-opus-4-8`, raw
+  `fetch` — no SDK, so the project stays dependency-free) with a Game-Master
+  system prompt grounded in the actual box (rules, scoring, the 6 modes, box
+  contents). The freemium metering/gating and response shape are unchanged.
+- **Graceful fallback:** if `ANTHROPIC_API_KEY` is unset or the call errors/times
+  out (20s), Nickie serves a canned tip instead of failing. Optional
+  `NICKIE_MODEL` env var overrides the model.
 
 ### Still stubbed — future work
 
 - **Stripe checkout** — set `STRIPE_SECRET_KEY`, give each product a real
   `stripePriceId`, and replace the TODO in `pages/api/checkout.js` with a
   Checkout Session.
-- **Nickie's real AI** — replace the canned `nickieAnswer()` in
-  `pages/api/nickie.js` with a call to an LLM provider (metering/gating already
-  in place).

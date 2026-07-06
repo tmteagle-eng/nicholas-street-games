@@ -44,6 +44,9 @@ All data stored in Upstash Redis as JSON-stringified entries in lists:
 - ADMIN_PASSWORD — for /rsvps dashboard auth
 - UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN
 - RESEND_API_KEY
+- AUTH_SECRET — signs magic-link sessions + Nickie anon cookies (lib/auth.js)
+- ANTHROPIC_API_KEY — powers Nickie's AI answers (pages/api/nickie.js); falls back to canned tips if unset
+- NICKIE_MODEL (optional) — override the Claude model for Nickie (default claude-opus-4-8)
 
 ## Design
 - **Marketing pages** (`/`, `/letter-me-this`, `/about`, `/buy`, Nav, Footer) use the
