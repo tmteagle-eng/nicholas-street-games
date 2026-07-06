@@ -16,12 +16,19 @@ export default function ReleaseRecords() {
       const res = await fetch('/api/releases', {
         headers: { Authorization: `Bearer ${password}` },
       })
-      if (!res.ok) throw new Error('Invalid password')
+      if (res.status === 401) throw new Error('auth')
+      if (!res.ok) throw new Error('server')
       const data = await res.json()
       setReleases(data.releases)
       setAuthed(true)
-    } catch {
-      setError('Invalid password. Try again.')
+    } catch (err) {
+      setError(
+        err.message === 'server'
+          ? 'Server error — couldn’t load records. Try again in a moment.'
+          : err.message === 'auth'
+          ? 'Invalid password. Try again.'
+          : 'Network error — check your connection and try again.'
+      )
     }
     setLoading(false)
   }

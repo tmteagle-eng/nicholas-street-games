@@ -19,14 +19,21 @@ export default function RsvpDashboard() {
       const res = await fetch('/api/rsvps', {
         headers: { Authorization: `Bearer ${password}` },
       })
-      if (!res.ok) throw new Error('Invalid password')
+      if (res.status === 401) throw new Error('auth')
+      if (!res.ok) throw new Error('server')
       const data = await res.json()
       setRsvps(data.rsvps)
       setReleases(data.releases || [])
       setCancellations(data.cancellations || [])
       setAuthed(true)
-    } catch {
-      setError('Invalid password. Try again.')
+    } catch (err) {
+      setError(
+        err.message === 'server'
+          ? 'Server error — couldn’t load the dashboard. Try again in a moment.'
+          : err.message === 'auth'
+          ? 'Invalid password. Try again.'
+          : 'Network error — check your connection and try again.'
+      )
     }
     setLoading(false)
   }
