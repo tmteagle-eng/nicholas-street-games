@@ -6,8 +6,14 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // The printed box QR code points to /our-games. Letter Me This! now
-      // lives on its own dedicated page, so send that traffic there.
+      // The printed box QR code points to /lettermethis (no dashes). The page
+      // lives at /letter-me-this, so redirect the QR traffic there.
+      {
+        source: '/lettermethis',
+        destination: '/letter-me-this',
+        permanent: true,
+      },
+      // Legacy: earlier the game page was /our-games. Keep this redirect too.
       {
         source: '/our-games',
         destination: '/letter-me-this',
