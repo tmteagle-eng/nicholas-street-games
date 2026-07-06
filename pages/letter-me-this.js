@@ -105,6 +105,7 @@ export default function LetterMeThis() {
             <ul style={s.checkList}>
               <li style={s.checkItem}><span style={s.check}>✓</span> A real word (in the dictionary).</li>
               <li style={s.checkItem}><span style={s.check}>✓</span> Truly describes The Subject — even if unflattering.</li>
+              <li style={s.checkItem}><span style={s.check}>✓</span> Different words score separately — “loving” and “lovable” both count.</li>
               <li style={s.checkItem}><span style={s.check}>✓</span> Minor misspellings still count — it’s a party game, not a spelling bee.</li>
             </ul>
             <p style={s.approvedNote}>When in doubt, majority rules.</p>
