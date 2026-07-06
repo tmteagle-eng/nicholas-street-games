@@ -68,7 +68,7 @@ export default function NickiePage() {
             <div style={s.avatar} aria-hidden="true">✨</div>
             <div>
               <h1 style={s.title}>Nickie</h1>
-              <p style={s.subtitle}>Your AI Game Master · <span style={{ color: colors.coralInk, fontWeight: 700 }}>Preview</span></p>
+              <p style={s.subtitle}>Your AI Game Master</p>
             </div>
             {typeof remaining === 'number' && (
               <span style={s.counter}>{remaining} / {limit} left</span>
@@ -118,10 +118,11 @@ export default function NickiePage() {
             </button>
           </form>
 
-          <p style={s.footnote}>
-            Nickie’s full AI answers are coming soon — you’re trying the preview.{' '}
-            {!user && <>Free guests get a few questions; <Link href="/register?next=/nickie" style={{ color: colors.tealInk, fontWeight: 700 }}>register free</Link> for more.</>}
-          </p>
+          {!user && (
+            <p style={s.footnote}>
+              Free guests get a few questions; <Link href="/register?next=/nickie" style={{ color: colors.tealInk, fontWeight: 700 }}>register free</Link> for more.
+            </p>
+          )}
         </div>
       </section>
     </>
