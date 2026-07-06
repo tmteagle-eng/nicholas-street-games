@@ -29,7 +29,7 @@ export default function Home() {
         <span style={{ ...s.dot, width: 10, height: 10, background: colors.teal, top: 70, right: '32%' }} />
 
         <div style={s.heroInner}>
-          <p className="fade-up-1" style={s.eyebrow}>Letter Me This!</p>
+          <img className="fade-up-1" src="/images/nsg-hero.png" alt="Nicholas Street Games" style={s.heroLogo} />
           <h1 className="fade-up-2" style={s.headline}>
             The party game where <span style={{ color: colors.coral }}>your friends define you.</span>
           </h1>
@@ -158,6 +158,11 @@ const s = {
   eyebrow: {
     fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14,
     letterSpacing: '0.18em', color: colors.tealInk, marginBottom: 18, textTransform: 'uppercase',
+  },
+  heroLogo: {
+    width: 'clamp(200px, 34vw, 280px)', height: 'auto',
+    display: 'block', margin: '0 auto 24px',
+    filter: 'drop-shadow(0 8px 22px rgba(20,40,35,0.12))',
   },
   headline: {
     fontFamily: FONT_DISPLAY, fontWeight: 800,
