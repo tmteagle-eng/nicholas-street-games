@@ -8,7 +8,7 @@ import {
 const STEPS = [
   { n: 1, color: colors.coral, title: 'Pick a Subject', body: 'One player becomes The Subject for the round — the person everyone will describe.' },
   { n: 2, color: colors.teal,  title: 'Roll the Dice', body: 'The player to the left rolls both dice. The alphabet die gives the letter; the number die gives how many words to write.' },
-  { n: 3, color: colors.yellow, fg: '#4a3b00', title: 'Write Fast!', body: 'Everyone except The Subject writes words that start with that letter and describe them. 90 seconds. Only your first words count.' },
+  { n: 3, color: colors.yellow, fg: '#4a3b00', title: 'Write Fast!', body: 'Everyone except The Subject writes words that start with that letter and describe them. 90 seconds. Only play the number of words the die showed — no playing extra.' },
   { n: 4, color: colors.green, title: 'Reveal & Score', body: 'Read your words aloud. The Subject approves real words — 1 point each. If two players wrote the same word, nobody scores it.' },
   { n: 5, color: colors.blue,  title: 'Rotate', body: 'The next player becomes The Subject. Play on! Most points wins — or just play for laughs.' },
 ]
