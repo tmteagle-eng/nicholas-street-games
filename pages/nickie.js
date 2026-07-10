@@ -9,6 +9,20 @@ const STARTER = {
   text: "Hi, I'm Nickie — your Letter Me This! Game Master. Ask me anything: rule questions, new modes, or settle a debate about whether that word really counts.",
 }
 
+// Tappable starter prompts that auto-rotate at the bottom of the chat.
+const SUGGESTIONS = [
+  'How do I keep score?',
+  'Where can I print score sheets?',
+  'Give me a fun house rule',
+  'How does Savage Mode work?',
+  'Ideas for a birthday game night',
+  'Settle a word dispute for me',
+  'What if two players write the same word?',
+  'Best mode for a big group?',
+  'How many words do I write?',
+  'Tips for a tough letter',
+]
+
 export default function NickiePage() {
   const { user, refresh } = useUser()
   const [messages, setMessages] = useState([STARTER])
@@ -16,16 +30,28 @@ export default function NickiePage() {
   const [sending, setSending] = useState(false)
   const [gate, setGate] = useState(null) // null | { reason, message }
   const [usage, setUsage] = useState(null) // { remaining, limit }
+  const [suggStart, setSuggStart] = useState(0)
   const scrollRef = useRef(null)
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
   }, [messages, gate])
 
-  const send = async (e) => {
+  // Rotate the suggestion chips so fresh prompts keep popping up.
+  useEffect(() => {
+    if (gate) return
+    const id = setInterval(() => setSuggStart((i) => (i + 3) % SUGGESTIONS.length), 5000)
+    return () => clearInterval(id)
+  }, [gate])
+
+  const send = (e) => {
     e.preventDefault()
-    const question = input.trim()
-    if (!question || sending) return
+    ask(input)
+  }
+
+  const ask = async (raw) => {
+    const question = (raw || '').trim()
+    if (!question || sending || gate) return
     setMessages((m) => [...m, { role: 'you', text: question }])
     setInput('')
     setSending(true)
@@ -54,6 +80,7 @@ export default function NickiePage() {
 
   const remaining = user ? user.nickieRemaining : usage?.remaining
   const limit = user ? user.nickieLimit : usage?.limit
+  const visibleSuggestions = [0, 1, 2].map((k) => SUGGESTIONS[(suggStart + k) % SUGGESTIONS.length])
 
   return (
     <>
@@ -65,6 +92,7 @@ export default function NickiePage() {
       <section style={s.wrap}>
         <div style={s.inner}>
           <div style={s.header}>
+            <Link href="/sheets" style={s.printPill}>🖨️ Print Sheets</Link>
             <div style={s.avatar} aria-hidden="true">✨</div>
             <div>
               <h1 style={s.title}>Nickie</h1>
@@ -118,6 +146,24 @@ export default function NickiePage() {
             </button>
           </form>
 
+          {!gate && (
+            <div style={s.suggWrap}>
+              <span style={s.suggLabel}>Try:</span>
+              {visibleSuggestions.map((q, i) => (
+                <button
+                  key={`${suggStart}-${i}`}
+                  type="button"
+                  className="fade-up"
+                  style={{ ...s.suggChip, opacity: sending ? 0.5 : 1 }}
+                  onClick={() => ask(q)}
+                  disabled={sending}
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          )}
+
           {!user && (
             <p style={s.footnote}>
               Free guests get a few questions; <Link href="/register?next=/nickie" style={{ color: colors.tealInk, fontWeight: 700 }}>register free</Link> for more.
@@ -132,7 +178,13 @@ export default function NickiePage() {
 const s = {
   wrap: { minHeight: 'calc(100vh - 64px)', padding: '40px 24px 64px', background: `radial-gradient(70% 50% at 50% 0%, ${colors.teal}12 0%, transparent 60%), ${colors.ground}` },
   inner: { maxWidth: 720, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 },
-  header: { display: 'flex', alignItems: 'center', gap: 14 },
+  header: { display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', rowGap: 10 },
+  printPill: {
+    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13, letterSpacing: '0.01em',
+    background: colors.blue, color: '#fff', padding: '9px 16px', borderRadius: 999,
+    textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6,
+    whiteSpace: 'nowrap', flex: '0 0 auto',
+  },
   avatar: { width: 52, height: 52, borderRadius: '50%', background: colors.deepTeal, color: '#fff', display: 'grid', placeItems: 'center', fontSize: 24, flex: '0 0 auto' },
   title: { fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 30, color: colors.ink, lineHeight: 1 },
   subtitle: { fontFamily: FONT_BODY, fontSize: 14, color: colors.inkSoft, marginTop: 2 },
@@ -153,4 +205,11 @@ const s = {
   input: { flex: 1, fontFamily: FONT_BODY, fontSize: 16, padding: '14px 18px', border: `1.5px solid ${colors.hair}`, borderRadius: 999, outline: 'none', background: colors.white, color: colors.ink },
   sendBtn: { fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16, color: '#fff', background: colors.teal, border: 'none', borderRadius: 999, padding: '0 26px', cursor: 'pointer' },
   footnote: { fontFamily: FONT_BODY, fontSize: 13, color: colors.inkFaint, textAlign: 'center', lineHeight: 1.6 },
+  suggWrap: { display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' },
+  suggLabel: { fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: colors.inkFaint },
+  suggChip: {
+    fontFamily: FONT_BODY, fontWeight: 700, fontSize: 13, color: colors.tealInk,
+    background: colors.white, border: `1.5px solid ${colors.teal}55`, borderRadius: 999,
+    padding: '8px 14px', cursor: 'pointer', whiteSpace: 'nowrap',
+  },
 }
