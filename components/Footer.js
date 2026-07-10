@@ -11,6 +11,7 @@ export default function Footer() {
         {/* Brand */}
         <div style={s.brandCol}>
           <img src="/images/nsg-logo.png" alt="Nicholas Street Games" style={s.logo} />
+          <p style={s.credit}>A Two Doors Down Production</p>
           <p style={s.tagline}>Where friends, families, and games come together.</p>
           <p style={s.legal}>© 2026 Nicholas Street Games, LLC · Upland, Southern California</p>
         </div>
@@ -71,6 +72,10 @@ const s = {
   },
   logo: {
     height: 70, width: 'auto',
+  },
+  credit: {
+    fontFamily: FONT_BODY, fontWeight: 700, fontSize: 11, letterSpacing: '0.06em',
+    textTransform: 'uppercase', color: '#9FCBC8', marginTop: -2,
   },
   tagline: {
     fontFamily: FONT_BODY, fontSize: 14, color: '#B9DAD8', lineHeight: 1.6, maxWidth: 260,
