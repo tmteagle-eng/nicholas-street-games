@@ -46,7 +46,7 @@ export default function LetterMeThis() {
     <>
       <Head>
         <title>Letter Me This! — The Party Game Where Your Friends Define You</title>
-        <meta name="description" content="Letter Me This! is the party game where your friends define you. Roll. Write. Reveal. Laugh. 3–8 players, ages 14+, 20+ minutes of chaos." />
+        <meta name="description" content="Letter Me This! is the party game where your friends define you. Roll. Write. Reveal. Laugh. 3–8+ players, ages 14+, 20+ minutes of chaos." />
       </Head>
 
       {/* ── 1 · HERO ── */}

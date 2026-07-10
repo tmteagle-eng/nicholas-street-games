@@ -12,7 +12,7 @@ const INSIDE = [
 ]
 
 const SPECS = [
-  ['Players',   '3 – 8'],
+  ['Players',   '3 – 8+'],
   ['Ages',      '14+'],
   ['Play Time', '20+ min'],
   ['Timer',     '90 seconds'],
