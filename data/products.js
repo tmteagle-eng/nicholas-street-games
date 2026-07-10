@@ -16,6 +16,7 @@ export const products = [
     price: 2500, // $25
     color: colors.teal,
     emoji: '🎲',
+    image: '/images/lmt-canister.jpg',
     badge: 'Flagship',
     inStock: true,
     stripePriceId: null,

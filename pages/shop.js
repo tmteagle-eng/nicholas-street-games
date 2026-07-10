@@ -48,8 +48,12 @@ export default function Shop() {
           <div style={s.grid}>
             {products.map((p) => (
               <div key={p.id} style={s.card}>
-                <div style={{ ...s.thumb, background: `${p.color}1f`, borderColor: `${p.color}55` }}>
-                  <span style={{ fontSize: 56 }} role="img" aria-label={p.name}>{p.emoji}</span>
+                <div style={{ ...s.thumb, background: p.image ? colors.white : `${p.color}1f`, borderColor: `${p.color}55` }}>
+                  {p.image ? (
+                    <img src={p.image} alt={p.name} style={s.thumbImg} />
+                  ) : (
+                    <span style={{ fontSize: 56 }} role="img" aria-label={p.name}>{p.emoji}</span>
+                  )}
                   {p.badge && <span style={{ ...s.badge, background: p.color }}>{p.badge}</span>}
                   <span style={s.typeTag}>{TYPE_LABEL[p.type] || 'Item'}</span>
                   <div style={s.soonWash} aria-hidden="true" />
@@ -105,7 +109,11 @@ const s = {
   },
   thumb: {
     position: 'relative', height: 180, display: 'grid', placeItems: 'center',
-    borderBottom: '1.5px solid',
+    borderBottom: '1.5px solid', overflow: 'hidden',
+  },
+  thumbImg: {
+    position: 'absolute', inset: 0, width: '100%', height: '100%',
+    objectFit: 'cover', objectPosition: 'center 42%',
   },
   badge: {
     position: 'absolute', top: 12, left: 12, color: '#fff',
