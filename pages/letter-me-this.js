@@ -67,7 +67,7 @@ export default function LetterMeThis() {
           </p>
 
           <div style={s.pillRow}>
-            <span style={ui.pill(colors.teal)}>3–8 Players</span>
+            <span style={ui.pill(colors.teal)}>3–8+ Players</span>
             <span style={ui.pill(colors.coral)}>Ages 14+</span>
             <span style={ui.pill(colors.green)}>20+ Min</span>
           </div>
@@ -75,6 +75,9 @@ export default function LetterMeThis() {
           <div style={s.heroBtns}>
             <Link href="/buy" style={ui.btnPrimary}>Buy the Game</Link>
             <Link href="/nickie" style={ui.btnTeal}>✨ Chat with Nickie</Link>
+            <Link href="/sheets" style={{ ...ui.btnTeal, background: colors.blue }}>🖨️ Print Score &amp; Player Sheets</Link>
+          </div>
+          <div style={{ ...s.heroBtns, marginTop: 14 }}>
             <a href={DICE_ROLLER_URL} style={ui.btnGhost} target="_blank" rel="noopener noreferrer">Try the Dice Roller</a>
           </div>
         </div>

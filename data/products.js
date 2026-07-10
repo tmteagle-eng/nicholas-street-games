@@ -13,7 +13,7 @@ export const products = [
     name: 'Letter Me This!',
     tagline: 'The party game where your friends define you.',
     type: 'game',
-    price: 2499, // $24.99
+    price: 2500, // $25
     color: colors.teal,
     emoji: '🎲',
     badge: 'Flagship',

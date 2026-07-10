@@ -39,7 +39,7 @@ export default function Home() {
             ))}
           </p>
           <div className="fade-up-4" style={s.pillRow}>
-            <span style={ui.pill(colors.teal)}>3–8 Players</span>
+            <span style={ui.pill(colors.teal)}>3–8+ Players</span>
             <span style={ui.pill(colors.coral)}>Ages 14+</span>
             <span style={ui.pill(colors.green)}>20+ Min</span>
           </div>

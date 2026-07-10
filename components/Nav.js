@@ -39,7 +39,10 @@ export default function Nav() {
         {/* Logo / brand */}
         <Link href="/" style={s.brand}>
           <img src="/images/nsg-logo.png" alt="Nicholas Street Games" style={s.navLogo} />
-          <span style={s.brandName}>Nicholas Street Games</span>
+          <span style={s.brandText}>
+            <span style={s.brandName}>Nicholas Street Games</span>
+            <span style={s.brandTag}>A Two Doors Down Production</span>
+          </span>
         </Link>
 
         {/* Desktop links */}
@@ -143,10 +146,18 @@ const s = {
   navLogo: {
     height: 46, width: 'auto',
   },
+  brandText: {
+    display: 'flex', flexDirection: 'column', justifyContent: 'center',
+  },
   brandName: {
     fontFamily: FONT_DISPLAY,
-    fontWeight: 800, fontSize: 19, letterSpacing: '0.01em',
+    fontWeight: 800, fontSize: 19, letterSpacing: '0.01em', lineHeight: 1.05,
     color: colors.ink,
+  },
+  brandTag: {
+    fontFamily: FONT_BODY,
+    fontWeight: 700, fontSize: 10, letterSpacing: '0.06em',
+    textTransform: 'uppercase', color: colors.inkFaint, marginTop: 1,
   },
   links: {
     display: 'flex', alignItems: 'center', gap: 6,
