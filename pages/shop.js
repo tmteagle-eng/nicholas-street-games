@@ -57,8 +57,12 @@ export default function Shop() {
                   )}
                   {p.badge && <span style={{ ...s.badge, background: p.color }}>{p.badge}</span>}
                   <span style={s.typeTag}>{TYPE_LABEL[p.type] || 'Item'}</span>
-                  <div style={s.soonWash} aria-hidden="true" />
-                  <span style={s.soonSticker}>Coming Soon</span>
+                  {!p.inStock && (
+                    <>
+                      <div style={s.soonWash} aria-hidden="true" />
+                      <span style={s.soonSticker}>Coming Soon</span>
+                    </>
+                  )}
                 </div>
                 <div style={s.cardBody}>
                   <h3 style={s.name}>{p.name}</h3>
@@ -68,12 +72,16 @@ export default function Shop() {
                   )}
                   <div style={s.cardFoot}>
                     <span style={s.price}>{formatPrice(p.price)}</span>
-                    <button
-                      style={{ ...s.addBtn, background: added === p.id ? colors.green : colors.coral }}
-                      onClick={() => handleAdd(p.id)}
-                    >
-                      {added === p.id ? '✓ Added' : 'Add to Cart'}
-                    </button>
+                    {p.inStock ? (
+                      <button
+                        style={{ ...s.addBtn, background: added === p.id ? colors.green : colors.coral }}
+                        onClick={() => handleAdd(p.id)}
+                      >
+                        {added === p.id ? '✓ Added' : 'Add to Cart'}
+                      </button>
+                    ) : (
+                      <span style={s.availSoon}>Avail Soon</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -81,8 +89,7 @@ export default function Shop() {
           </div>
 
           <p style={s.disclaimer}>
-            Pricing shown is placeholder pending confirmation. Online checkout is
-            coming soon — see something you want now? Email{' '}
+            Ships within the US. Questions about an order? Email{' '}
             <a href="mailto:info@nicholasstreetgames.com" style={{ color: colors.tealInk }}>info@nicholasstreetgames.com</a>.
           </p>
         </div>
@@ -163,6 +170,12 @@ const s = {
     fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14, letterSpacing: '0.01em',
     color: '#fff', border: 'none', cursor: 'pointer',
     padding: '10px 18px', borderRadius: 999, transition: 'background 0.2s',
+  },
+  availSoon: {
+    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14, letterSpacing: '0.01em',
+    color: colors.inkFaint, background: colors.ground,
+    border: `1.5px solid ${colors.hair}`,
+    padding: '10px 18px', borderRadius: 999,
   },
   disclaimer: {
     marginTop: 36, textAlign: 'center', fontFamily: FONT_BODY, fontSize: 13.5,

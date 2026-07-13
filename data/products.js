@@ -33,7 +33,7 @@ export const products = [
     color: colors.coral,
     emoji: '👕',
     badge: null,
-    inStock: true,
+    inStock: false, // not yet orderable
     stripePriceId: null,
     description: 'Soft cotton tee with the four-color slogan. Unisex fit.',
   },
@@ -47,7 +47,7 @@ export const products = [
     color: colors.green,
     emoji: '🧢',
     badge: null,
-    inStock: true,
+    inStock: false, // not yet orderable
     stripePriceId: null,
     description: 'Embroidered street-sign logo on a classic dad cap.',
   },
@@ -61,7 +61,7 @@ export const products = [
     color: colors.yellow,
     emoji: '✨',
     badge: null,
-    inStock: true,
+    inStock: false, // not yet orderable
     stripePriceId: null,
     description: 'A pack of six vinyl stickers featuring the logo, dice, and slogan.',
   },
@@ -75,7 +75,7 @@ export const products = [
     color: colors.blue,
     emoji: '📝',
     badge: null,
-    inStock: true,
+    inStock: false, // not yet orderable
     stripePriceId: null,
     description: 'Two replacement 25-sheet writing pads for Letter Me This!',
   },
