@@ -32,6 +32,7 @@ export default function Shop() {
           <p style={{ ...ui.lead, margin: '14px auto 0' }}>
             Letter Me This! plus a growing lineup of Nicholas Street Games merch.
           </p>
+          <p style={s.shipPill}>🚚 $5 flat shipping — FREE on orders of 2 or more</p>
           {count > 0 && (
             <Link href="/cart" style={{ ...ui.btnTeal, marginTop: 24 }}>
               View Cart ({count}) →
@@ -62,6 +63,9 @@ export default function Shop() {
                 <div style={s.cardBody}>
                   <h3 style={s.name}>{p.name}</h3>
                   <p style={s.tagline}>{p.tagline}</p>
+                  {p.type === 'game' && (
+                    <p style={s.shipNote}>🚚 Free shipping when you order 2 or more</p>
+                  )}
                   <div style={s.cardFoot}>
                     <span style={s.price}>{formatPrice(p.price)}</span>
                     <button
@@ -96,6 +100,17 @@ const s = {
     fontFamily: FONT_DISPLAY, fontWeight: 800,
     fontSize: 'clamp(36px,6vw,60px)', color: colors.ink, letterSpacing: '-0.01em',
     lineHeight: 1.05, textWrap: 'balance',
+  },
+  shipPill: {
+    display: 'inline-block', marginTop: 20,
+    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14.5, letterSpacing: '0.01em',
+    color: colors.tealInk, background: `${colors.teal}1a`,
+    border: `1.5px solid ${colors.teal}55`,
+    padding: '8px 18px', borderRadius: 999,
+  },
+  shipNote: {
+    fontFamily: FONT_BODY, fontSize: 13, fontWeight: 700, color: colors.tealInk,
+    margin: '2px 0 0',
   },
   section: { padding: '72px 24px' },
   inner: { maxWidth: 1040, margin: '0 auto' },

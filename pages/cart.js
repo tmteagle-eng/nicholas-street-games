@@ -5,9 +5,16 @@ import { colors, FONT_DISPLAY, FONT_BODY, ui } from '../styles/tokens'
 import { formatPrice } from '../data/products'
 import { useCart } from '../lib/cart'
 
+// Mirrors the server-side rule in pages/api/checkout.js.
+const SHIPPING_FLAT_CENTS = 500
+const FREE_SHIPPING_MIN_QTY = 2
+
 export default function Cart() {
   const { lines, subtotal, count, setQty, removeFromCart } = useCart()
   const [status, setStatus] = useState(null) // null | 'loading' | 'soon' | 'error'
+
+  const freeShipping = count >= FREE_SHIPPING_MIN_QTY
+  const shippingCents = freeShipping ? 0 : SHIPPING_FLAT_CENTS
 
   const handleCheckout = async () => {
     setStatus('loading')
@@ -73,10 +80,29 @@ export default function Cart() {
 
               {/* Summary */}
               <aside style={s.summary}>
+                {count === 1 && (
+                  <div style={s.upsell}>
+                    <span style={s.upsellText}>
+                      🚚 You&apos;re <b>one item away</b> from free shipping — add a second{' '}
+                      {lines[0].product.name} and skip the {formatPrice(SHIPPING_FLAT_CENTS)}.
+                    </span>
+                    <button
+                      style={s.upsellBtn}
+                      onClick={() => setQty(lines[0].product.id, lines[0].qty + 1)}
+                    >
+                      + Add one more
+                    </button>
+                  </div>
+                )}
+
                 <div style={s.sumRow}><span>Subtotal</span><span>{formatPrice(subtotal)}</span></div>
-                <div style={s.sumRowMuted}><span>Shipping &amp; tax</span><span>Calculated at checkout</span></div>
+                <div style={freeShipping ? s.sumRowFree : s.sumRowMuted}>
+                  <span>Shipping &amp; handling</span>
+                  <span>{freeShipping ? 'FREE 🎉' : formatPrice(shippingCents)}</span>
+                </div>
+                <div style={s.sumRowMuted}><span>Tax</span><span>Calculated at checkout</span></div>
                 <div style={s.sumDivider} />
-                <div style={s.sumTotal}><span>Total</span><span>{formatPrice(subtotal)}</span></div>
+                <div style={s.sumTotal}><span>Total</span><span>{formatPrice(subtotal + shippingCents)}</span></div>
 
                 <button style={ui.btnPrimary} onClick={handleCheckout} disabled={status === 'loading'}>
                   {status === 'loading' ? 'One moment…' : 'Checkout'}
@@ -124,6 +150,19 @@ const s = {
   qtyNum: { fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16, minWidth: 18, textAlign: 'center' },
   lineTotal: { fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 18, color: colors.ink },
   summary: { background: colors.white, border: `1.5px solid ${colors.hair}`, borderRadius: 20, padding: 24, display: 'flex', flexDirection: 'column', gap: 12, position: 'sticky', top: 88 },
+  upsell: {
+    display: 'flex', flexDirection: 'column', gap: 10,
+    background: `${colors.teal}14`, border: `1.5px solid ${colors.teal}55`,
+    borderRadius: 14, padding: '14px 16px', marginBottom: 4,
+  },
+  upsellText: { fontFamily: FONT_BODY, fontSize: 13.5, color: colors.ink, lineHeight: 1.55 },
+  upsellBtn: {
+    alignSelf: 'flex-start',
+    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13.5,
+    color: '#fff', background: colors.teal, border: 'none', cursor: 'pointer',
+    padding: '8px 16px', borderRadius: 999,
+  },
+  sumRowFree: { display: 'flex', justifyContent: 'space-between', fontFamily: FONT_BODY, fontSize: 13.5, fontWeight: 800, color: colors.tealInk },
   sumRow: { display: 'flex', justifyContent: 'space-between', fontFamily: FONT_BODY, fontSize: 15, fontWeight: 700, color: colors.ink },
   sumRowMuted: { display: 'flex', justifyContent: 'space-between', fontFamily: FONT_BODY, fontSize: 13.5, color: colors.inkFaint },
   sumDivider: { height: 1, background: colors.hair, margin: '4px 0' },
