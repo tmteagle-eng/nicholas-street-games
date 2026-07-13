@@ -25,6 +25,13 @@ const SUGGESTIONS = [
 
 export default function NickiePage() {
   const { user, refresh } = useUser()
+  const [talking, setTalking] = useState(false)
+  // Safari (incl. iOS) can't decode VP9 alpha — serve it the cream-background
+  // mp4 in a circular badge instead of the transparent webm.
+  const [safari, setSafari] = useState(false)
+  useEffect(() => {
+    setSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent))
+  }, [])
   const [messages, setMessages] = useState([STARTER])
   const [input, setInput] = useState('')
   const [sending, setSending] = useState(false)
@@ -93,7 +100,6 @@ export default function NickiePage() {
         <div style={s.inner}>
           <div style={s.header}>
             <Link href="/sheets" style={s.printPill}>🖨️ Print Sheets</Link>
-            <div style={s.avatar} aria-hidden="true">✨</div>
             <div>
               <h1 style={s.title}>Nickie</h1>
               <p style={s.subtitle}>Your AI Game Master</p>
@@ -101,28 +107,40 @@ export default function NickiePage() {
             {typeof remaining === 'number' && (
               <span style={s.counter}>{remaining} / {limit} left</span>
             )}
-          </div>
 
-          {/* Intro video */}
-          <div style={s.introRow}>
-            <video
-              style={s.introVideo}
-              controls
-              playsInline
-              preload="none"
-              poster="/images/nickie-video-poster.jpg"
-              aria-label="Nickie introduces themself"
+            {/* Nickie, live on the page — tap to hear the intro */}
+            <button
+              type="button"
+              style={s.nickieBox}
+              onClick={() => setTalking(true)}
+              aria-label="Play Nickie's introduction"
             >
-              <source src="/videos/introducing-nickie.mp4" type="video/mp4" />
-            </video>
-            <div style={s.introText}>
-              <p style={s.introTitle}>New here? Meet Nickie. 👋</p>
-              <p style={s.introBody}>
-                Fourteen seconds with your twenty-sided game master — then ask
-                away below. Rules, new game modes, word disputes: Nickie never
-                stops rolling.
-              </p>
-            </div>
+              {talking ? (
+                <video
+                  key="talking"
+                  style={{ ...s.nickieVid, ...(safari ? s.nickieVidSafari : {}) }}
+                  autoPlay
+                  playsInline
+                  onEnded={() => setTalking(false)}
+                >
+                  {!safari && <source src="/videos/nickie-full.webm" type="video/webm" />}
+                  <source src="/videos/nickie-full.mp4" type="video/mp4" />
+                </video>
+              ) : (
+                <video
+                  key="idle"
+                  style={{ ...s.nickieVid, ...(safari ? s.nickieVidSafari : {}) }}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                >
+                  {!safari && <source src="/videos/nickie-idle.webm" type="video/webm" />}
+                  <source src="/videos/nickie-idle.mp4" type="video/mp4" />
+                </video>
+              )}
+              {!talking && <span style={s.nickieHint}>🔊 Tap me!</span>}
+            </button>
           </div>
 
           <div style={s.chat} ref={scrollRef}>
@@ -211,20 +229,27 @@ const s = {
   title: { fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 30, color: colors.ink, lineHeight: 1 },
   subtitle: { fontFamily: FONT_BODY, fontSize: 14, color: colors.inkSoft, marginTop: 2 },
   counter: { marginLeft: 'auto', fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13, color: colors.inkSoft, background: colors.mint, borderRadius: 999, padding: '6px 14px' },
-  introRow: {
-    display: 'flex', gap: 18, alignItems: 'center',
-    background: colors.white, border: `1.5px solid ${colors.hair}`, borderRadius: 22,
-    padding: 16, boxShadow: '0 10px 26px rgba(20,40,35,0.05)',
-    flexWrap: 'wrap',
+  nickieBox: {
+    position: 'relative', width: 158, flex: '0 0 auto',
+    marginLeft: 'auto', padding: 0,
+    background: 'none', border: 'none', cursor: 'pointer',
   },
-  introVideo: {
-    width: 150, aspectRatio: '9 / 16', borderRadius: 14,
-    border: `1.5px solid ${colors.hair}`, background: colors.deepTeal,
-    objectFit: 'cover', flex: '0 0 auto',
+  nickieVid: {
+    display: 'block', width: '100%', aspectRatio: '1 / 1',
+    objectFit: 'cover',
+    filter: 'drop-shadow(0 8px 16px rgba(20,40,35,0.18))',
   },
-  introText: { flex: '1 1 220px', minWidth: 200 },
-  introTitle: { fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 19, color: colors.ink, marginBottom: 6 },
-  introBody: { fontFamily: FONT_BODY, fontSize: 14.5, color: colors.inkSoft, lineHeight: 1.6 },
+  nickieVidSafari: {
+    borderRadius: '50%', background: '#F0E9E2',
+    border: `1.5px solid ${colors.hair}`,
+    filter: 'none', boxShadow: '0 8px 16px rgba(20,40,35,0.12)',
+  },
+  nickieHint: {
+    position: 'absolute', bottom: -4, left: '50%', transform: 'translateX(-50%)',
+    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 12, whiteSpace: 'nowrap',
+    background: colors.sun, color: colors.ink, border: `1.5px solid ${colors.yellow}88`,
+    padding: '4px 12px', borderRadius: 999, boxShadow: '0 3px 10px rgba(20,40,35,0.12)',
+  },
   chat: {
     background: colors.white, border: `1.5px solid ${colors.hair}`, borderRadius: 22,
     padding: 20, height: 'min(56vh, 480px)', overflowY: 'auto',
