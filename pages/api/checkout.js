@@ -8,8 +8,8 @@
 import Stripe from 'stripe'
 import { products } from '../../data/products'
 
-const SHIPPING_FLAT_CENTS = 699 // flat US shipping; free over threshold below
-const FREE_SHIPPING_OVER_CENTS = 5000
+const SHIPPING_FLAT_CENTS = 500 // flat US shipping & handling
+const FREE_SHIPPING_MIN_QTY = 2 // free shipping when ordering 2+ items
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -46,8 +46,8 @@ export default async function handler(req, res) {
   const host = req.headers['x-forwarded-host'] || req.headers.host
   const origin = `${proto}://${host}`
 
-  const subtotal = lineItems.reduce((sum, { product, qty }) => sum + product.price * qty, 0)
-  const shippingCents = subtotal >= FREE_SHIPPING_OVER_CENTS ? 0 : SHIPPING_FLAT_CENTS
+  const totalQty = lineItems.reduce((sum, { qty }) => sum + qty, 0)
+  const shippingCents = totalQty >= FREE_SHIPPING_MIN_QTY ? 0 : SHIPPING_FLAT_CENTS
 
   const params = {
     mode: 'payment',
