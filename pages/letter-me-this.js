@@ -155,7 +155,7 @@ export default function LetterMeThis() {
       <section style={{ ...s.section, background: colors.deepTeal }}>
         <div style={{ ...s.inner, maxWidth: 760, textAlign: 'center' }}>
           <div style={s.nickieBadge}>✨ Preview Available</div>
-          <h2 style={{ ...ui.h2, color: '#fff' }}>Meet Nickie — your AI Game Master.</h2>
+          <h2 style={{ ...ui.h2, color: '#fff' }}>Meet Nickie<span style={{ fontSize: '0.5em', verticalAlign: 'super' }}>™</span> — your AI Game Master.</h2>
           <p style={{ ...ui.lead, color: '#B9DAD8', margin: '18px auto 0', maxWidth: '52ch' }}>
             Endless rule variations, brand-new modes, and mid-game debates — settled.
             Nickie is the friendly AI game master built right into Letter Me This! Ask a question,

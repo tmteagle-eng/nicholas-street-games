@@ -92,7 +92,7 @@ export default function NickiePage() {
   return (
     <>
       <Head>
-        <title>Chat with Nickie — Letter Me This! AI Game Master</title>
+        <title>Chat with Nickie™ — Letter Me This! AI Game Master</title>
         <meta name="description" content="Ask Nickie, the Letter Me This! AI Game Master, about rules, game modes, and settling mid-game debates." />
       </Head>
 
@@ -101,7 +101,7 @@ export default function NickiePage() {
           <div style={s.header}>
             <Link href="/sheets" style={s.printPill}>🖨️ Print Sheets</Link>
             <div>
-              <h1 style={s.title}>Nickie</h1>
+              <h1 style={s.title}>Nickie<span style={s.tm}>™</span></h1>
               <p style={s.subtitle}>Your AI Game Master</p>
             </div>
             {typeof remaining === 'number' && (
@@ -227,6 +227,7 @@ const s = {
   },
   avatar: { width: 52, height: 52, borderRadius: '50%', background: colors.deepTeal, color: '#fff', display: 'grid', placeItems: 'center', fontSize: 24, flex: '0 0 auto' },
   title: { fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 30, color: colors.ink, lineHeight: 1 },
+  tm: { fontSize: 13, fontWeight: 700, verticalAlign: 'super', marginLeft: 1 },
   subtitle: { fontFamily: FONT_BODY, fontSize: 14, color: colors.inkSoft, marginTop: 2 },
   counter: { marginLeft: 'auto', fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13, color: colors.inkSoft, background: colors.mint, borderRadius: 999, padding: '6px 14px' },
   nickieBox: {

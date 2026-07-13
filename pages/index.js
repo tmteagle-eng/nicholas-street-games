@@ -108,7 +108,7 @@ export default function Home() {
             <div style={s.nickieBody}>
               <p style={ui.eyebrow}>Meet Nickie</p>
               <h2 style={{ ...ui.h2, marginBottom: 12 }}>
-                Meet Nickie, our AI Letter Me This! Game Master.
+                Meet Nickie<span style={{ fontSize: '0.5em', verticalAlign: 'super' }}>™</span>, our AI Letter Me This! Game Master.
               </h2>
               <p style={{ ...ui.body, marginBottom: 22 }}>
                 Rule questions, brand-new game modes, mid-game word disputes —
