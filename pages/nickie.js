@@ -240,7 +240,7 @@ const s = {
     filter: 'drop-shadow(0 8px 16px rgba(20,40,35,0.18))',
   },
   nickieVidSafari: {
-    borderRadius: '50%', background: '#F0E9E2',
+    borderRadius: '50%', background: '#fff',
     border: `1.5px solid ${colors.hair}`,
     filter: 'none', boxShadow: '0 8px 16px rgba(20,40,35,0.12)',
   },
