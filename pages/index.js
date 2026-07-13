@@ -100,6 +100,26 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── MEET NICKIE ── */}
+      <section style={{ ...s.section, background: colors.white }}>
+        <div style={{ ...s.inner, maxWidth: 880 }}>
+          <Link href="/nickie" style={s.nickieCard} className="spot-card">
+            <img src="/images/nickie.jpg" alt="Nickie, the Letter Me This! AI Game Master — a cheerful teal twenty-sided die wearing a Nicholas Street Games cap" style={s.nickieImg} />
+            <div style={s.nickieBody}>
+              <p style={ui.eyebrow}>Meet Nickie</p>
+              <h2 style={{ ...ui.h2, marginBottom: 12 }}>
+                Meet Nickie, our AI Letter Me This! Game Master.
+              </h2>
+              <p style={{ ...ui.body, marginBottom: 22 }}>
+                Rule questions, brand-new game modes, mid-game word disputes —
+                Nickie handles it all, any time. Come say hi.
+              </p>
+              <span style={ui.btnTeal}>Chat with Nickie →</span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
       {/* ── COMING SOON BANNER ── */}
       <section style={{ ...s.section, background: colors.deepTeal, textAlign: 'center' }}>
         <div style={{ maxWidth: 520, margin: '0 auto' }}>
@@ -209,4 +229,18 @@ const s = {
     background: '#fff', color: colors.deepTeal, padding: '13px 26px',
     borderRadius: 999, textDecoration: 'none', display: 'inline-block',
   },
+
+  nickieCard: {
+    display: 'flex', alignItems: 'center', gap: 36,
+    background: colors.ground, border: `1.5px solid ${colors.hair}`,
+    borderRadius: 26, padding: '30px 36px',
+    textDecoration: 'none', transition: 'transform 0.2s',
+    boxShadow: '0 12px 32px rgba(20,40,35,0.07)',
+    flexWrap: 'wrap', justifyContent: 'center',
+  },
+  nickieImg: {
+    width: 230, height: 230, borderRadius: 22, objectFit: 'cover',
+    flex: '0 0 auto',
+  },
+  nickieBody: { flex: '1 1 320px', minWidth: 280 },
 }

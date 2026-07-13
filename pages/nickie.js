@@ -103,6 +103,28 @@ export default function NickiePage() {
             )}
           </div>
 
+          {/* Intro video */}
+          <div style={s.introRow}>
+            <video
+              style={s.introVideo}
+              controls
+              playsInline
+              preload="none"
+              poster="/images/nickie-video-poster.jpg"
+              aria-label="Nickie introduces themself"
+            >
+              <source src="/videos/introducing-nickie.mp4" type="video/mp4" />
+            </video>
+            <div style={s.introText}>
+              <p style={s.introTitle}>New here? Meet Nickie. 👋</p>
+              <p style={s.introBody}>
+                Fourteen seconds with your twenty-sided game master — then ask
+                away below. Rules, new game modes, word disputes: Nickie never
+                stops rolling.
+              </p>
+            </div>
+          </div>
+
           <div style={s.chat} ref={scrollRef}>
             {messages.map((m, i) => (
               <div key={i} style={{ ...s.bubbleRow, justifyContent: m.role === 'you' ? 'flex-end' : 'flex-start' }}>
@@ -189,6 +211,20 @@ const s = {
   title: { fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 30, color: colors.ink, lineHeight: 1 },
   subtitle: { fontFamily: FONT_BODY, fontSize: 14, color: colors.inkSoft, marginTop: 2 },
   counter: { marginLeft: 'auto', fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13, color: colors.inkSoft, background: colors.mint, borderRadius: 999, padding: '6px 14px' },
+  introRow: {
+    display: 'flex', gap: 18, alignItems: 'center',
+    background: colors.white, border: `1.5px solid ${colors.hair}`, borderRadius: 22,
+    padding: 16, boxShadow: '0 10px 26px rgba(20,40,35,0.05)',
+    flexWrap: 'wrap',
+  },
+  introVideo: {
+    width: 150, aspectRatio: '9 / 16', borderRadius: 14,
+    border: `1.5px solid ${colors.hair}`, background: colors.deepTeal,
+    objectFit: 'cover', flex: '0 0 auto',
+  },
+  introText: { flex: '1 1 220px', minWidth: 200 },
+  introTitle: { fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 19, color: colors.ink, marginBottom: 6 },
+  introBody: { fontFamily: FONT_BODY, fontSize: 14.5, color: colors.inkSoft, lineHeight: 1.6 },
   chat: {
     background: colors.white, border: `1.5px solid ${colors.hair}`, borderRadius: 22,
     padding: 20, height: 'min(56vh, 480px)', overflowY: 'auto',
