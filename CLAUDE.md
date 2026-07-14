@@ -60,6 +60,29 @@ All data stored in Upstash Redis as JSON-stringified entries in lists:
 - Fonts loaded in `pages/_document.js`: Baloo 2 + Bebas Neue + Nunito (Google Fonts)
 - Game facts (source of truth = production box): 3–8 players, ages 14+, 20+ min, 90-second timer, slogan "Roll. Write. Reveal. Laugh."
 
+## Nickie™ — AI Game Master character
+- **Nickie™** is the mascot: a teal 20-sided die in an NSG cap. Chat at `/nickie`
+  (Claude-powered via `pages/api/nickie.js`); homepage has a "Meet Nickie™" card;
+  `/letter-me-this` has a preview section.
+- **Trademark convention:** superscript ™ on the FIRST prominent "Nickie" per page
+  (headings + title tags) — never in conversational strings (chat text, placeholders, nav).
+  Character art is AI-generated (Gemini/Veo from `OneDrive/Visuals/NIckie.jpg`), so
+  copyright protection is weak — trademark is the primary protection; keep generation
+  history as first-use evidence.
+- **Animated character on `/nickie`:** not a framed video player — an ambient character.
+  `public/videos/nickie-idle.{webm,mp4}` (5.4s seamless ping-pong wave loop, autoplays
+  muted) + `nickie-full.{webm,mp4}` (~14.6s intro with voice, plays on tap). The webm
+  files are VP9 **with alpha** (transparent bg, Nickie floats); Safari/iOS can't decode
+  VP9 alpha so the page UA-sniffs and serves the white-bg mp4 in a circular badge.
+- **Asset pipeline** (source: `OneDrive/Visuals/Nickie Intro/Nickie Intro.mp4`, 4K HEVC
+  9:16 with the square white-bg content letterboxed inside): ffmpeg scale to 1080x1920 →
+  crop `1080:1082:0:418` → 640px PNG frames → **flood-fill key** (only bg regions
+  connected to the frame border go transparent — protects Nickie's white eyes/N; plain
+  colorkey would eat them) → force 4px border transparent (kills letterbox residue) →
+  encode VP9 `yuva420p -auto-alt-ref 0` + H.264 fallbacks. Idle loop = frames 3–85
+  forward + reverse. Shareable GIF made from the same frames
+  (`OneDrive/Visuals/Nickie Wave.gif`).
+
 ## Contact
 - Ops/admin email: tim@nicholasstreetgames.com (Microsoft 365)
 - Public marketing email (shown on the site, matches the box): info@nicholasstreetgames.com
