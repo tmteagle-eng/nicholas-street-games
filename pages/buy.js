@@ -35,6 +35,9 @@ export default function Buy() {
           let you know the moment it’s available.
         </p>
         <a href={`mailto:${CONTACT_EMAIL}`} style={ui.btnPrimary}>Get Notified</a>
+        <p style={{ ...ui.body, marginTop: 22, textAlign: 'center' }}>
+          Got questions about the game? <Link href="/faq" style={{ color: colors.tealInk, fontWeight: 700 }}>Read the FAQ →</Link>
+        </p>
       </section>
 
       <div className="color-bar" />

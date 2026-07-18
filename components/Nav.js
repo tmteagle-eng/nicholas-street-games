@@ -23,6 +23,7 @@ export default function Nav() {
     { href: '/letter-me-this',  label: 'Letter Me This!' },
     { href: '/shop',            label: 'Shop' },
     { href: '/about',           label: 'About' },
+    { href: '/faq',             label: 'FAQ' },
   ]
 
   const isActive = (href) =>

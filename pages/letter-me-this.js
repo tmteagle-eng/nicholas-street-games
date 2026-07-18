@@ -81,6 +81,9 @@ export default function LetterMeThis() {
           <div style={{ ...s.heroBtns, marginTop: 14 }}>
             <a href={DICE_ROLLER_URL} style={ui.btnGhost} target="_blank" rel="noopener noreferrer">Try the Dice Roller</a>
           </div>
+          <p style={{ ...ui.body, marginTop: 20, textAlign: 'center' }}>
+            Got questions? <Link href="/faq" style={{ color: colors.tealInk, fontWeight: 700 }}>Read the FAQ →</Link>
+          </p>
         </div>
       </section>
 
