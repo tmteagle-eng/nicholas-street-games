@@ -16,7 +16,6 @@ const STEPS = [
 const INSIDE = [
   { qty: 1, label: '20-sided alphabet die' },
   { qty: 1, label: '6-sided number die' },
-  { qty: 1, label: 'Dice canister' },
   { qty: 1, label: 'Writing pad (25 sheets)' },
   { qty: 6, label: 'Pencils' },
   { qty: 1, label: 'Pencil sharpener' },

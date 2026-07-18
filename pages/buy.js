@@ -5,7 +5,6 @@ import { colors, FONT_DISPLAY, FONT_BODY, ui, CONTACT_EMAIL } from '../styles/to
 const INSIDE = [
   { icon: '🎲', item: '20-sided alphabet die' },
   { icon: '🎲', item: '6-sided number die' },
-  { icon: '🥤', item: 'Dice canister' },
   { icon: '📝', item: 'Writing pad (25 sheets)' },
   { icon: '✏️', item: '6 pencils + sharpener' },
   { icon: '📄', item: 'Instruction sheet' },
