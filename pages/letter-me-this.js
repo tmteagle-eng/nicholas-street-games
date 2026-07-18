@@ -76,14 +76,12 @@ export default function LetterMeThis() {
             <Link href="/nickie" style={{ ...ui.btnTeal, display: 'inline-flex', alignItems: 'center', gap: 7 }}>
               <img src="/images/nickie-transparent.png" alt="" aria-hidden="true" style={{ height: 22, width: 'auto' }} /> Chat with Nickie
             </Link>
-            <Link href="/sheets" style={{ ...ui.btnTeal, background: colors.blue }}>🖨️ Print Score &amp; Player Sheets</Link>
+            <Link href="/faq" style={{ ...ui.btnTeal, background: colors.green }}>❓ FAQ</Link>
           </div>
           <div style={{ ...s.heroBtns, marginTop: 14 }}>
+            <Link href="/sheets" style={{ ...ui.btnTeal, background: colors.blue }}>🖨️ Print Score &amp; Player Sheets</Link>
             <a href={DICE_ROLLER_URL} style={ui.btnGhost} target="_blank" rel="noopener noreferrer">Try the Dice Roller</a>
           </div>
-          <p style={{ ...ui.body, marginTop: 20, textAlign: 'center' }}>
-            Got questions? <Link href="/faq" style={{ color: colors.tealInk, fontWeight: 700 }}>Read the FAQ →</Link>
-          </p>
         </div>
       </section>
 
