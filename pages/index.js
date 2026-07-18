@@ -104,7 +104,7 @@ export default function Home() {
       <section style={{ ...s.section, background: colors.white }}>
         <div style={{ ...s.inner, maxWidth: 880 }}>
           <Link href="/nickie" style={s.nickieCard} className="spot-card">
-            <img src="/images/nickie.jpg" alt="Nickie, the Letter Me This! AI Game Master — a cheerful teal twenty-sided die wearing a Nicholas Street Games cap" style={s.nickieImg} />
+            <img src="/images/nickie-transparent.png" alt="Nickie, the Letter Me This! AI Game Master — a cheerful teal twenty-sided die wearing a Nicholas Street Games cap" style={s.nickieImg} />
             <div style={s.nickieBody}>
               <p style={ui.eyebrow}>Meet Nickie</p>
               <h2 style={{ ...ui.h2, marginBottom: 12 }}>
@@ -239,8 +239,9 @@ const s = {
     flexWrap: 'wrap', justifyContent: 'center',
   },
   nickieImg: {
-    width: 230, height: 230, borderRadius: 22, objectFit: 'cover',
+    width: 200, height: 236, objectFit: 'contain',
     flex: '0 0 auto',
+    filter: 'drop-shadow(0 10px 22px rgba(20,40,35,0.18))',
   },
   nickieBody: { flex: '1 1 320px', minWidth: 280 },
 }

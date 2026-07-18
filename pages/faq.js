@@ -131,8 +131,10 @@ export default function Faq() {
         <h1 style={s.pageTitle}>Frequently Asked Questions</h1>
         <p style={{ ...ui.lead, margin: '18px auto 0', textAlign: 'center' }}>
           The short answers are below. For answers about <em>your</em> table,{' '}
-          <Link href="/nickie" style={s.inlineLink}>ask Nickie</Link> — that&apos;s
-          literally what they&apos;re here for.
+          <Link href="/nickie" style={{ ...s.inlineLink, whiteSpace: 'nowrap' }}>
+            <img src="/images/nickie-transparent.png" alt="" aria-hidden="true" style={s.inlineNickie} />
+            {' '}ask Nickie
+          </Link> — that&apos;s literally what they&apos;re here for.
         </p>
       </section>
 
@@ -161,6 +163,11 @@ export default function Faq() {
       {/* ── ASK NICKIE CTA ── */}
       <section style={{ ...s.section, background: colors.deepTeal, textAlign: 'center' }}>
         <div style={{ maxWidth: 640, margin: '0 auto' }}>
+          <img
+            src="/images/nickie-transparent.png"
+            alt="Nickie, the Letter Me This! AI Game Master — a cheerful teal twenty-sided die wearing a Nicholas Street Games cap"
+            style={{ width: 160, height: 'auto', margin: '0 auto 18px', display: 'block', filter: 'drop-shadow(0 12px 26px rgba(0,0,0,0.3))' }}
+          />
           <p style={{ ...ui.eyebrow, color: colors.yellow }}>Still Wondering?</p>
           <h2 style={{ ...ui.h2, color: '#fff' }}>Don&apos;t scroll. Ask.</h2>
           <p style={{ ...ui.lead, color: '#B9DAD8', margin: '20px auto 30px' }}>
@@ -197,6 +204,7 @@ const s = {
     letterSpacing: '-0.01em', lineHeight: 1.05, textWrap: 'balance',
   },
   inlineLink: { color: colors.tealInk, fontWeight: 700, textDecoration: 'underline' },
+  inlineNickie: { height: 26, width: 'auto', verticalAlign: '-6px', display: 'inline-block' },
   section: { padding: '72px 24px' },
   faqWrap: { maxWidth: 840, margin: '0 auto' },
   sectionTitle: {
