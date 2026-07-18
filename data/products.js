@@ -21,7 +21,7 @@ export const products = [
     inStock: true,
     stripePriceId: null,
     description:
-      'The complete boxed game: 20-sided alphabet die, 6-sided number die, dice canister, 25-sheet writing pad, 6 pencils, sharpener, and instructions. 3–8+ players, ages 14+.',
+      'The complete game: 20-sided alphabet die, 6-sided number die, 25-sheet writing pad, 6 pencils, sharpener, and instructions — in a printed canister that doubles as storage. 3–8+ players, ages 14+.',
   },
   {
     id: 'lmt-tee',
