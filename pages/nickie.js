@@ -25,6 +25,13 @@ const SUGGESTIONS = [
 
 export default function NickiePage() {
   const { user, refresh } = useUser()
+  const [talking, setTalking] = useState(false)
+  // Safari (incl. iOS) can't decode VP9 alpha — serve it the cream-background
+  // mp4 in a circular badge instead of the transparent webm.
+  const [safari, setSafari] = useState(false)
+  useEffect(() => {
+    setSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent))
+  }, [])
   const [messages, setMessages] = useState([STARTER])
   const [input, setInput] = useState('')
   const [sending, setSending] = useState(false)
@@ -85,7 +92,7 @@ export default function NickiePage() {
   return (
     <>
       <Head>
-        <title>Chat with Nickie — Letter Me This! AI Game Master</title>
+        <title>Chat with Nickie™ — Letter Me This! AI Game Master</title>
         <meta name="description" content="Ask Nickie, the Letter Me This! AI Game Master, about rules, game modes, and settling mid-game debates." />
       </Head>
 
@@ -93,14 +100,47 @@ export default function NickiePage() {
         <div style={s.inner}>
           <div style={s.header}>
             <Link href="/sheets" style={s.printPill}>🖨️ Print Sheets</Link>
-            <div style={s.avatar} aria-hidden="true">✨</div>
             <div>
-              <h1 style={s.title}>Nickie</h1>
+              <h1 style={s.title}>Nickie<span style={s.tm}>™</span></h1>
               <p style={s.subtitle}>Your AI Game Master</p>
             </div>
             {typeof remaining === 'number' && (
               <span style={s.counter}>{remaining} / {limit} left</span>
             )}
+
+            {/* Nickie, live on the page — tap to hear the intro */}
+            <button
+              type="button"
+              style={s.nickieBox}
+              onClick={() => setTalking(true)}
+              aria-label="Play Nickie's introduction"
+            >
+              {talking ? (
+                <video
+                  key="talking"
+                  style={{ ...s.nickieVid, ...(safari ? s.nickieVidSafari : {}) }}
+                  autoPlay
+                  playsInline
+                  onEnded={() => setTalking(false)}
+                >
+                  {!safari && <source src="/videos/nickie-full.webm" type="video/webm" />}
+                  <source src="/videos/nickie-full.mp4" type="video/mp4" />
+                </video>
+              ) : (
+                <video
+                  key="idle"
+                  style={{ ...s.nickieVid, ...(safari ? s.nickieVidSafari : {}) }}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                >
+                  {!safari && <source src="/videos/nickie-idle.webm" type="video/webm" />}
+                  <source src="/videos/nickie-idle.mp4" type="video/mp4" />
+                </video>
+              )}
+              {!talking && <span style={s.nickieHint}>🔊 Tap me!</span>}
+            </button>
           </div>
 
           <div style={s.chat} ref={scrollRef}>
@@ -187,8 +227,30 @@ const s = {
   },
   avatar: { width: 52, height: 52, borderRadius: '50%', background: colors.deepTeal, color: '#fff', display: 'grid', placeItems: 'center', fontSize: 24, flex: '0 0 auto' },
   title: { fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 30, color: colors.ink, lineHeight: 1 },
+  tm: { fontSize: 13, fontWeight: 700, verticalAlign: 'super', marginLeft: 1 },
   subtitle: { fontFamily: FONT_BODY, fontSize: 14, color: colors.inkSoft, marginTop: 2 },
   counter: { marginLeft: 'auto', fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13, color: colors.inkSoft, background: colors.mint, borderRadius: 999, padding: '6px 14px' },
+  nickieBox: {
+    position: 'relative', width: 158, flex: '0 0 auto',
+    marginLeft: 'auto', padding: 0,
+    background: 'none', border: 'none', cursor: 'pointer',
+  },
+  nickieVid: {
+    display: 'block', width: '100%', aspectRatio: '1 / 1',
+    objectFit: 'cover',
+    filter: 'drop-shadow(0 8px 16px rgba(20,40,35,0.18))',
+  },
+  nickieVidSafari: {
+    borderRadius: '50%', background: '#fff',
+    border: `1.5px solid ${colors.hair}`,
+    filter: 'none', boxShadow: '0 8px 16px rgba(20,40,35,0.12)',
+  },
+  nickieHint: {
+    position: 'absolute', bottom: -4, left: '50%', transform: 'translateX(-50%)',
+    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 12, whiteSpace: 'nowrap',
+    background: colors.sun, color: colors.ink, border: `1.5px solid ${colors.yellow}88`,
+    padding: '4px 12px', borderRadius: 999, boxShadow: '0 3px 10px rgba(20,40,35,0.12)',
+  },
   chat: {
     background: colors.white, border: `1.5px solid ${colors.hair}`, borderRadius: 22,
     padding: 20, height: 'min(56vh, 480px)', overflowY: 'auto',

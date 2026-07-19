@@ -16,7 +16,6 @@ const STEPS = [
 const INSIDE = [
   { qty: 1, label: '20-sided alphabet die' },
   { qty: 1, label: '6-sided number die' },
-  { qty: 1, label: 'Dice canister' },
   { qty: 1, label: 'Writing pad (25 sheets)' },
   { qty: 6, label: 'Pencils' },
   { qty: 1, label: 'Pencil sharpener' },
@@ -74,10 +73,13 @@ export default function LetterMeThis() {
 
           <div style={s.heroBtns}>
             <Link href="/buy" style={ui.btnPrimary}>Buy the Game</Link>
-            <Link href="/nickie" style={ui.btnTeal}>✨ Chat with Nickie</Link>
-            <Link href="/sheets" style={{ ...ui.btnTeal, background: colors.blue }}>🖨️ Print Score &amp; Player Sheets</Link>
+            <Link href="/nickie" style={{ ...ui.btnTeal, display: 'inline-flex', alignItems: 'center', gap: 7 }}>
+              <img src="/images/nickie-transparent.png" alt="" aria-hidden="true" style={{ height: 22, width: 'auto' }} /> Chat with Nickie
+            </Link>
+            <Link href="/faq" style={{ ...ui.btnTeal, background: colors.green }}>❓ FAQ</Link>
           </div>
           <div style={{ ...s.heroBtns, marginTop: 14 }}>
+            <Link href="/sheets" style={{ ...ui.btnTeal, background: colors.blue }}>🖨️ Print Score &amp; Player Sheets</Link>
             <a href={DICE_ROLLER_URL} style={ui.btnGhost} target="_blank" rel="noopener noreferrer">Try the Dice Roller</a>
           </div>
         </div>
@@ -154,8 +156,13 @@ export default function LetterMeThis() {
       {/* ── 5 · MEET NICKIE ── */}
       <section style={{ ...s.section, background: colors.deepTeal }}>
         <div style={{ ...s.inner, maxWidth: 760, textAlign: 'center' }}>
+          <img
+            src="/images/nickie-transparent.png"
+            alt="Nickie, the Letter Me This! AI Game Master — a cheerful teal twenty-sided die wearing a Nicholas Street Games cap"
+            style={{ width: 150, height: 'auto', margin: '0 auto 18px', display: 'block', filter: 'drop-shadow(0 12px 26px rgba(0,0,0,0.3))' }}
+          />
           <div style={s.nickieBadge}>✨ Preview Available</div>
-          <h2 style={{ ...ui.h2, color: '#fff' }}>Meet Nickie — your AI Game Master.</h2>
+          <h2 style={{ ...ui.h2, color: '#fff' }}>Meet Nickie<span style={{ fontSize: '0.5em', verticalAlign: 'super' }}>™</span> — your AI Game Master.</h2>
           <p style={{ ...ui.lead, color: '#B9DAD8', margin: '18px auto 0', maxWidth: '52ch' }}>
             Endless rule variations, brand-new modes, and mid-game debates — settled.
             Nickie is the friendly AI game master built right into Letter Me This! Ask a question,

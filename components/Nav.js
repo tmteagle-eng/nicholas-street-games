@@ -23,6 +23,7 @@ export default function Nav() {
     { href: '/letter-me-this',  label: 'Letter Me This!' },
     { href: '/shop',            label: 'Shop' },
     { href: '/about',           label: 'About' },
+    { href: '/faq',             label: 'FAQ' },
   ]
 
   const isActive = (href) =>
@@ -61,7 +62,7 @@ export default function Nav() {
             </Link>
           ))}
           <Link href="/nickie" style={s.nickieBtn}>
-            <span aria-hidden="true">✨</span> Chat with Nickie
+            <img src="/images/nickie-transparent.png" alt="" aria-hidden="true" style={s.nickieBtnImg} /> Chat with Nickie
           </Link>
           <Link
             href={user ? '/account' : '/login'}
@@ -110,8 +111,8 @@ export default function Nav() {
           <Link href="/cart" style={s.drawerLink} onClick={() => setMenuOpen(false)}>
             🛒 Cart{count > 0 ? ` (${count})` : ''}
           </Link>
-          <Link href="/nickie" style={{ ...s.drawerCta, background: colors.teal }} onClick={() => setMenuOpen(false)}>
-            ✨ Chat with Nickie
+          <Link href="/nickie" style={{ ...s.drawerCta, background: colors.teal, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }} onClick={() => setMenuOpen(false)}>
+            <img src="/images/nickie-transparent.png" alt="" aria-hidden="true" style={s.nickieBtnImg} /> Chat with Nickie
           </Link>
         </div>
       )}
@@ -167,6 +168,10 @@ const s = {
     fontSize: 14, fontWeight: 700, letterSpacing: '0.01em',
     textDecoration: 'none', padding: '8px 14px',
     borderRadius: 999,
+  },
+  nickieBtnImg: {
+    height: 24, width: 'auto', display: 'inline-block',
+    filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))',
   },
   nickieBtn: {
     marginLeft: 8,

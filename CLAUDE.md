@@ -17,6 +17,7 @@ Website for Nicholas Street Games — home of the Letter Me This! board game. In
 ## Pages
 - `/` — Homepage
 - `/about` — About page
+- `/faq` — FAQ page. Q&A content lives in one `SECTIONS` array that renders the page AND emits FAQPage JSON-LD (edit only the array; they can't drift). Linked from top nav, footer, `/buy`, and the `/letter-me-this` hero (green ❓ FAQ button).
 - `/letter-me-this` — Dedicated Letter Me This! game page (how to play, what's inside, game modes, Nickie AI game master, testimonials, buy). This is the printed box QR-code destination.
 - `/our-games` — 301-redirects to `/letter-me-this` (via next.config.js). Kept so the printed box QR code stays valid.
 - `/buy` — Buy page (currently "Coming Soon")
@@ -59,6 +60,41 @@ All data stored in Upstash Redis as JSON-stringified entries in lists:
 - Brand colors: #20B2AA (teal), #F5C518 (yellow), #E85D3D (coral/red), #3a7d44 (green), #0C5C63 (deep teal), #1a1a1a (dark)
 - Fonts loaded in `pages/_document.js`: Baloo 2 + Bebas Neue + Nunito (Google Fonts)
 - Game facts (source of truth = production box): 3–8 players, ages 14+, 20+ min, 90-second timer, slogan "Roll. Write. Reveal. Laugh."
+- **Price: $24.95** (`data/products.js`, matches FAQ + stripe-checkout branch). Merch prices are still placeholders.
+- **Box contents (6 items, matches v4+ label):** letter die, number die, writing pad, 6 pencils, sharpener, instructions. There is NO separate dice canister — the printed canister IS the storage. Scrubbed site-wide 2026-07-17; don't reintroduce it.
+- **Marketing positioning (standing rule, applies to ALL site copy + Nickie):** The game is designed/marketed 14+ but proudly FAMILY-FRIENDLY — kids play ALONGSIDE parents and adults, never marketed to kids on their own; every group decides how it plays; no educational-for-children claims (CPSIA: the 14+ label keeps the current run a general-use product, and manufacturer marketing is a factor in that determination — see Tim's CPSIA 8+ regrade plan before loosening this).
+
+## Nickie™ — AI Game Master character
+- **Nickie™** is the mascot: a teal 20-sided die in an NSG cap. Chat at `/nickie`
+  (Claude-powered via `pages/api/nickie.js`); homepage has a "Meet Nickie™" card;
+  `/letter-me-this` has a preview section.
+- **Image convention:** every link/button to `/nickie` shows `public/images/nickie-transparent.png`
+  (alpha-keyed cap-tip pose, same art as the canister label) — nav buttons, homepage card,
+  letter-me-this hero + section, account page, FAQ inline link + closing CTA. Keep this
+  when adding new Nickie links.
+- **System prompt guardrails** (in `pages/api/nickie.js` — keep in sync with the FAQ + positioning rule):
+  AGES & FAMILY section (family-friendly, kids-with-parents framing, no educational-for-kids
+  claims, "little ones" only in the under-3 safety warning) and BIBLE MODE (featured Theme
+  Words variation for church/Bible study/devotional groups; respectful tone; never suggest
+  Drinking/Savage modes in faith contexts).
+- **Trademark convention:** superscript ™ on the FIRST prominent "Nickie" per page
+  (headings + title tags) — never in conversational strings (chat text, placeholders, nav).
+  Character art is AI-generated (Gemini/Veo from `OneDrive/Visuals/NIckie.jpg`), so
+  copyright protection is weak — trademark is the primary protection; keep generation
+  history as first-use evidence.
+- **Animated character on `/nickie`:** not a framed video player — an ambient character.
+  `public/videos/nickie-idle.{webm,mp4}` (5.4s seamless ping-pong wave loop, autoplays
+  muted) + `nickie-full.{webm,mp4}` (~14.6s intro with voice, plays on tap). The webm
+  files are VP9 **with alpha** (transparent bg, Nickie floats); Safari/iOS can't decode
+  VP9 alpha so the page UA-sniffs and serves the white-bg mp4 in a circular badge.
+- **Asset pipeline** (source: `OneDrive/Visuals/Nickie Intro/Nickie Intro.mp4`, 4K HEVC
+  9:16 with the square white-bg content letterboxed inside): ffmpeg scale to 1080x1920 →
+  crop `1080:1082:0:418` → 640px PNG frames → **flood-fill key** (only bg regions
+  connected to the frame border go transparent — protects Nickie's white eyes/N; plain
+  colorkey would eat them) → force 4px border transparent (kills letterbox residue) →
+  encode VP9 `yuva420p -auto-alt-ref 0` + H.264 fallbacks. Idle loop = frames 3–85
+  forward + reverse. Shareable GIF made from the same frames
+  (`OneDrive/Visuals/Nickie Wave.gif`).
 
 ## Contact
 - Ops/admin email: tim@nicholasstreetgames.com (Microsoft 365)

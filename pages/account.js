@@ -61,7 +61,9 @@ export default function Account() {
                     ? 'Paid plans with more (or unlimited) questions are coming soon.'
                     : 'You’ve used all your questions on the free plan. Paid plans are coming soon.'}
                 </p>
-                <Link href="/nickie" style={{ ...ui.btnTeal, marginTop: 14 }}>Chat with Nickie</Link>
+                <Link href="/nickie" style={{ ...ui.btnTeal, marginTop: 14, display: 'inline-flex', alignItems: 'center', gap: 7 }}>
+                  <img src="/images/nickie-transparent.png" alt="" aria-hidden="true" style={{ height: 22, width: 'auto' }} /> Chat with Nickie
+                </Link>
               </div>
 
               <button style={s.logout} onClick={handleLogout}>Sign out</button>

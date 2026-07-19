@@ -5,7 +5,6 @@ import { colors, FONT_DISPLAY, FONT_BODY, ui, CONTACT_EMAIL } from '../styles/to
 const INSIDE = [
   { icon: '🎲', item: '20-sided alphabet die' },
   { icon: '🎲', item: '6-sided number die' },
-  { icon: '🥤', item: 'Dice canister' },
   { icon: '📝', item: 'Writing pad (25 sheets)' },
   { icon: '✏️', item: '6 pencils + sharpener' },
   { icon: '📄', item: 'Instruction sheet' },
@@ -36,6 +35,9 @@ export default function Buy() {
           let you know the moment it’s available.
         </p>
         <a href={`mailto:${CONTACT_EMAIL}`} style={ui.btnPrimary}>Get Notified</a>
+        <p style={{ ...ui.body, marginTop: 22, textAlign: 'center' }}>
+          Got questions about the game? <Link href="/faq" style={{ color: colors.tealInk, fontWeight: 700 }}>Read the FAQ →</Link>
+        </p>
       </section>
 
       <div className="color-bar" />

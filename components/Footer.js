@@ -24,6 +24,7 @@ export default function Footer() {
             { href: '/letter-me-this', label: 'Letter Me This!' },
             { href: '/shop',           label: 'Shop' },
             { href: '/about',          label: 'About' },
+            { href: '/faq',            label: 'FAQ' },
           ].map(({ href, label }) => (
             <Link key={href} href={href} style={s.footLink}>{label}</Link>
           ))}
