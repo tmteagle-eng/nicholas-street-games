@@ -65,6 +65,14 @@ async function createShippoOrder(order) {
         subtotal_price: dollars(order.amountSubtotal),
         total_price: dollars(order.amountTotal),
         currency: 'USD',
+        // Shippo requires an order weight. Estimate from quantity; the real
+        // parcel weight comes from the saved preset at label time.
+        weight: Math.max(
+          0.5,
+          order.items.reduce((n, i) => n + (i.quantity || 1), 0) *
+            parseFloat(process.env.SHIPPO_ITEM_WEIGHT_LB || '1.5')
+        ),
+        weight_unit: 'lb',
       }),
     })
     if (!res.ok) {
