@@ -1,10 +1,13 @@
-// Stripe webhook — records completed orders and emails a notification.
+// Stripe webhook — records completed orders, mirrors them into Shippo,
+// and emails a notification.
 //
 // Stripe POSTs signed events here; we verify the signature with
 // STRIPE_WEBHOOK_SECRET (from the webhook endpoint config in the Stripe
 // dashboard) and act on checkout.session.completed: save the order to the
-// `orders` Redis list and email tim@. The customer's receipt comes from
-// Stripe directly.
+// `orders` Redis list (source of truth), create a matching Shippo order so
+// fulfillment happens from the Shippo dashboard, and email orders@. Shippo
+// and email are both best-effort — only a Redis failure makes Stripe retry.
+// The customer's receipt comes from Stripe directly.
 
 import Stripe from 'stripe'
 import { Resend } from 'resend'
@@ -20,6 +23,57 @@ function readRawBody(req) {
     req.on('end', () => resolve(Buffer.concat(chunks)))
     req.on('error', reject)
   })
+}
+
+// Mirror the order into Shippo so it appears in the fulfillment queue with
+// the address pre-filled. A test token creates test orders; live token, live
+// orders. Failures are logged and swallowed — the Redis record is the truth.
+async function createShippoOrder(order) {
+  if (!process.env.SHIPPO_API_TOKEN || !order.shippingAddress) return
+  const addr = order.shippingAddress
+  const dollars = (cents) => ((cents || 0) / 100).toFixed(2)
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), 10000)
+  try {
+    const res = await fetch('https://api.goshippo.com/orders/', {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        'content-type': 'application/json',
+        authorization: `ShippoToken ${process.env.SHIPPO_API_TOKEN}`,
+      },
+      body: JSON.stringify({
+        order_number: `NSG-${order.stripeSessionId.slice(-8).toUpperCase()}`,
+        order_status: 'PAID',
+        placed_at: order.createdAt,
+        to_address: {
+          name: order.shippingName || order.name,
+          street1: addr.line1,
+          street2: addr.line2 || '',
+          city: addr.city,
+          state: addr.state,
+          zip: addr.postal_code,
+          country: addr.country || 'US',
+          email: order.email || undefined,
+        },
+        line_items: order.items.map((i) => ({
+          title: i.description,
+          quantity: i.quantity,
+          total_price: dollars(i.amountTotal),
+          currency: 'USD',
+        })),
+        subtotal_price: dollars(order.amountSubtotal),
+        total_price: dollars(order.amountTotal),
+        currency: 'USD',
+      }),
+    })
+    if (!res.ok) {
+      const body = await res.text().catch(() => '')
+      throw new Error(`Shippo ${res.status}: ${body.slice(0, 300)}`)
+    }
+  } finally {
+    clearTimeout(timer)
+  }
 }
 
 export default async function handler(req, res) {
@@ -96,6 +150,13 @@ export default async function handler(req, res) {
   }
 
   try {
+    await createShippoOrder(order)
+  } catch (err) {
+    // Order is safely in Redis; Rochelle/Tim can add it to Shippo by hand.
+    console.error('Shippo order creation failed:', err.message)
+  }
+
+  try {
     const resend = new Resend(process.env.RESEND_API_KEY)
     const money = (cents) => `$${((cents || 0) / 100).toFixed(2)}`
     const rows = itemsSummary
@@ -112,7 +173,7 @@ export default async function handler(req, res) {
 
     await resend.emails.send({
       from: 'Letter Me This! Shop <rsvp@nicholasstreetgames.com>',
-      to: 'tim@nicholasstreetgames.com',
+      to: 'orders@nicholasstreetgames.com',
       replyTo: order.email || undefined,
       subject: `${order.livemode ? '' : '[TEST] '}New order — ${money(order.amountTotal)} from ${order.name || order.email}`,
       html: `
